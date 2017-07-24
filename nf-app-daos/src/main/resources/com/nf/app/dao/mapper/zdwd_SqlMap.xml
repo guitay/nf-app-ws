@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<sqlMap namespace="APP_ZDWD">
+
+	<select id="zdwd_load" resultType="com.tiancom.mpas.app.zdwd.Zdwd"
+		parameterType="java.util.HashMap">
+
+		select distinct wd.tjrq,wd.wdbh,wd.scr,hy.hymc scrmc,wd.wdmc,wd.pxbz
+		from mpas_zdwd_wd wd
+		inner join khdx_hy hy on wd.scr = hy.khdxdh
+		order
+		by wd.pxbz
+	</select>
+
+</sqlMap>

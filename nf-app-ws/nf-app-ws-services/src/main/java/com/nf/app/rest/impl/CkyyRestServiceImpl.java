@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.app.ckyy.Ckyy;
+import com.nf.app.bean.ckyy.Ckyy;
 import com.nf.app.ckyy.CkyyService;
 import com.nf.app.rest.CkyyRestService;
 

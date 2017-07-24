@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_KH">
+	<!-- 查看客户信息 -->
+	<select id="app_kh_getCustomers" resultType="com.tiancom.mpas.pojo.APP_KH"
+		parameterType="java.util.Map">
+		SELECT T.KHDXDH,T.TJRQ,T.KHH,T.KHMC,T.ZHBS,SUM(T.ZHYE) ZHYE
+		<if test="tableName=='MPAS_KH_BHKH'">
+			,SUM(T.BHYE) BHJE
+		</if>
+		,COALESCE(GZKH.GZZT,'0') AS SFGZ,T.BZ FROM #{tableName} T
+		LEFT JOIN
+		MPAS_SZ_GRGZKH GZKH ON GZKH.KHH=T.KHH AND GZKH.KHDXDH=T.KHDXDH
+		where
+		T.KHDXDH=#{khdxdh} AND T.TJRQ=#{tjrq}
+		<if test="zhbs!=null">
+			and T.ZHBS='#{zhbs}'
+		</if>
+		GROUP BY T.KHDXDH,T.TJRQ,T.KHH,T.KHMC,T.ZHBS,GZKH.GZZT ,T.BZ
+		ORDER BY
+		SUM(T.ZHYE) DESC
+	</select>
+
+	<!-- 根据客户号获取账户信息 -->
+	<select id="app_kh_getZhInfo" resultType="com.tiancom.mpas.pojo.APP_KH"
+		parameterType="java.util.Map">
+
+		SELECT T.*
+		<if test="tableName=='MPAS_KH_BHKH'">
+			,T.BHYE BHJE
+		</if>
+		<![CDATA[
+		,CASE WHEN T.DQRQ < F_CHANGE_DAYS(T.TJRQ,-7) THEN '1' ELSE '0' END DQKHMARK FROM #{tableName} T
+		  ]]>
+		WHERE T.KHDXDH=#{khdxdh} AND T.TJRQ=#{tjrq}
+		<if test="khh!=null">
+			and t.khh='#{khh}'
+		</if>
+		ORDER BY T.ZHYE desc
+
+	</select>
+
+
+	<!-- 修改【MPAS_设置_个人关注客户】中的关注状态（取消关注） -->
+	<update id="app_kh_updateGzkhStates" parameterType="java.util.Map">
+
+		UPDATE
+		MPAS_SZ_GRGZKH SET GZZT='#{gzzt}' WHERE KHDXDH=#{khdxdh} AND
+		KHH='#{khh}'
+	</update>
+
+	<!-- 查询【MPAS_设置_个人关注客户】中是否已经有该客户信息 -->
+	<select id="app_kh_selectGzkh" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+
+		SELECT COUNT(1) FROM MPAS_SZ_GRGZKH
+		WHERE
+		KHDXDH=#{khdxdh} AND
+		KHH='#{khh}'
+	</select>
+
+	<!-- 删除关注信息 -->
+	<delete id="app_kh_deleteGzkh" parameterType="java.util.Map">
+		DELETE FROM
+		MPAS_SZ_GRGZKH WHERE KHDXDH=#{khdxdh} AND KHH=#{khh}
+	</delete>
+
+	<!-- 删除关注信息 -->
+	<delete id="app_kh_deleteGzkhZhxx" parameterType="java.util.Map">
+
+		DELETE FROM
+		MPAS_XT_GZKH KH WHERE EXISTS(
+		SELECT 1 FROM #{tableName} T WHERE
+		T.TJRQ=#{tjrq} AND T.KHDXDH=#{khdxdh} AND
+		T.KHH=#{khh}
+		AND
+		T.TJRQ=KH.TJRQ
+		AND T.KHH=KH.KHH
+		)
+	</delete>
+
+	<!-- 添加关注客户 -->
+	<insert id="app_kh_addGzkh" parameterType="java.util.Map">
+
+		INSERT INTO
+		MPAS_SZ_GRGZKH(KHDXDH,KHH,KHMC,GZSJ,GZZT)
+		VALUES(#{khdxdh},#{khh},#{khmc},f_get_systime(),#{gzzt})
+	</insert>
+
+	<!-- 添加关注客户的账户信息 -->
+	<insert id="app_kh_addGzkhZhxx" parameterType="java.util.Map">
+
+		INSERT INTO
+		MPAS_XT_GZKH(TJRQ,JXDXDH,JXDXLX,ZHDH,KMH,KMMC,KHMC,KHRQ,KHH,DQRQ,ZHYE,GHXX,KHJGMC)
+		SELECT
+		T.TJRQ,T.JXDXDH,T.JXDXLX,T.ZHDH,T.KMH,T.KMMC,T.KHMC,T.KHRQ,T.KHH,T.DQRQ,T.ZHYE,T.GHXX,T.KHJGMC
+		FROM #{tableName} T
+		WHERE T.TJRQ=#{tjrq} AND T.KHDXDH=#{khdxdh} AND
+		T.KHH=#{khh}
+	</insert>
+
+	<!-- 添加关注客户的账户信息 -->
+	<update id="app_kh_updateGzzhxx" parameterType="java.util.Map">
+
+		UPDATE
+		MPAS_XT_GZKH T SET T.TJRQ=#{tjrq} WHERE T.KHH=#{khh}
+	</update>
+
+
+	<!-- 查看关注客户信息 -->
+	<select id="app_kh_getGzCustomers" resultType="com.tiancom.mpas.pojo.APP_KH"
+		parameterType="java.util.Map">
+
+		SELECT T.KHH,T.KHMC,MAX(CASE WHEN
+		T.JXDXLX=1 THEN
+		T.JXDXLX ELSE 0 END)
+		CKJXDXLX,MAX(CASE WHEN T.JXDXLX=2
+		THEN T.JXDXLX
+		ELSE 0 END) DKJXDXLX,
+		SUM(CASE WHEN T.JXDXLX=1 THEN
+		T.ZHYE ELSE 0 END)
+		CKZHYE,SUM(CASE WHEN
+		T.JXDXLX=2 THEN T.ZHYE ELSE 0
+		END) DKZHYE
+		FROM (
+		SELECT KH.KHH,KH.KHMC,ZH.JXDXLX,SUM(ZH.ZHYE) ZHYE
+		FROM MPAS_SZ_GRGZKH
+		KH
+		INNER JOIN MPAS_XT_GZKH ZH ON KH.KHH=ZH.KHH
+		WHERE
+		KH.KHDXDH=#{khdxdh}
+		AND ZH.TJRQ=#{tjrq} AND KH.GZZT='1'
+		GROUP BY KH.KHH,
+		KH.KHMC, ZH.JXDXLX,
+		KH.GZSJ
+		ORDER BY KH.GZSJ
+		) T GROUP BY T.KHH, T.KHMC
+	</select>
+
+	<!-- 查看关注客户的账户信息 -->
+	<select id="app_kh_getGzZhInfo" resultType="com.tiancom.mpas.pojo.APP_KH"
+		parameterType="java.util.Map">
+
+		SELECT ZH.* FROM MPAS_XT_GZKH ZH
+		INNER JOIN
+		MPAS_SZ_GRGZKH KH ON
+		ZH.KHH=KH.KHH
+		WHERE KH.GZZT='1'
+		AND ZH.TJRQ=#{tjrq}
+		AND
+		KH.KHDXDH=#{khdxdh}
+	</select>
+</mapper>

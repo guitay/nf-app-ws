@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.app.jj.Jj;
+import com.nf.app.bean.jj.Jj;
+import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.jj.JjService;
 import com.nf.app.rest.JjRestService;
-import com.nf.pojo.QueryCondition;
 
 /**
  * 计价CXF接口

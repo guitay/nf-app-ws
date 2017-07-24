@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.app.dao.system">
+	<!-- 以下为MPAS云端登陆部分 -->
+	<!-- 根据登陆名称取得行员 -->
+	<select id="mpas_selectMpasYH" resultType="com.tiancom.mpas.pojo.M_YH"
+		parameterType="java.util.HashMap">
+		select
+		y.yhid,y.hydh,y.hymc,y.dlmc,y.dlmm,y.yhbs,y.sfscdl,y.sjhm,y.yjdz,y.wxh,k.yhmc
+		from M_YHB y
+		inner join M_KHB k on y.yhbs=k.yhbs
+		where y.dlmc=#{dlmc} and
+		y.dlmm=#{dlmm}
+	</select>
+
+	<select id="mpas_selectXtcs" parameterType="java.util.HashMap"
+		resultType="com.tiancom.mpas.pojo.XTCS">
+
+		select csmc,csz, csms ,bzsm from SJBC_XTCS_$yhbs$ where csmc=#{csmc}
+	</select>
+
+	<update id="mpas_updateSfscdl" parameterType="java.util.HashMap">
+
+		update M_YHB set sfscdl='0' where yhid=#{yhid}
+	</update>
+
+	<!-- 根据登陆名称取得行员 -->
+	<select id="mpas_selectByDlmc" resultType="com.tiancom.mpas.pojo.MPAS_HY"
+		parameterType="java.lang.String">
+
+		select hydh, hymc, dlmc, dlmm,jgdh,jgmc,lbdh,lbmc, APPbb,xtrq
+		from
+		MPAS_XT_HY
+		where trim(dlmc)=#{value}
+	</select>
+
+	<!-- 以下为MPASWebApp登陆部分 -->
+	<!-- 根据登陆名称取得行员 -->
+	<select id="mpaswebapp_selectMpasHYByDlmc" resultType="com.tiancom.mpas.pojo.MPAS_HY"
+		parameterType="java.util.HashMap">
+		select
+		hy.khdxdh,hy.hydh,hy.hymc,xt.jgkhdxdh,xt.jgdh,xt.jgmc,xt.lbdh,xt.lbmc,hy.dlmc,hy.dlmm,
+		xt.tjrq xtrq
+		from KHDX_HY hy
+		inner join MPAS_XT_HY xt on xt.khdxdh=hy.khdxdh
+		<trim prefix="where" prefixOverrides="and">
+			<if test="dlmc!=null">
+				and hy.dlmc=#{dlmc}
+			</if>
+			<if test="khdxdh!=null">
+				and hy.khdxdh=#{khdxdh}
+			</if>
+		</trim>
+	</select>
+	<!-- 根据登陆名称取得行员类别 -->
+	<select id="mpasapp_selectHylb" resultType="com.tiancom.mpas.pojo.Hylb"
+		parameterType="java.util.HashMap">
+
+		select lbdh,lbmc
+		from MPAS_XT_HY
+		WHERE khdxdh=#{khdxdh} and tjrq=#{tjrq}
+	</select>
+	<select id="mpaswebapp_selectMpasXtcs" parameterType="java.util.HashMap"
+		resultType="com.tiancom.mpas.pojo.XTCS">
+		select csmc,zdbz, csms, csz from XTB_XTCS where csmc=#{csmc}
+	</select>
+
+	<select id="mpaswebapp_selectMpasDmms" resultType="com.tiancom.mpas.pojo.Dmms"
+		parameterType="java.util.HashMap">
+		select dmmc,dmms,dmz,dmsm,xh from csb_dmms where dmmc = #{dmmc}
+	</select>
+
+	<!-- 根据登录名称获取最新公告 -->
+	<select id="mpaswebapp_selectZxgg" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		select csz from mpas_sz_xtcssz
+		<if test="csmc!=null">
+			where csmc like '%csmc%'
+		</if>
+	</select>
+	<!-- 根据登录名称获取任务 -->
+	<select id="mpaswebapp_selectRw" parameterType="java.util.Map"
+		resultType="java.lang.String">
+		 <![CDATA[
+		select distinct tjrq, rwbh,rwnr,cast(sj as varchar(20)) as txsj,cast(sj as varchar(20)) as xxsj 
+		from MPAS_GR_RWZX rw 
+		where rw.khdxdh=}{khdxdh} and rw.sfwc='0'
+		]]>
+	</select>
+	<!-- 根据登录名称获取个人菜单 -->
+	<select id="mpaswebapp_selectCd" parameterType="java.util.HashMap"
+		resultType="com.tiancom.mpas.pojo.Menu">
+		select distinct tjrq,cdbh,cdmc,cddz,cdtb from MPAS_XT_HYDYCD cd
+		where cd.tjrq=$tjrq$ and cd.khdxdh=#{khdxdh} and cd.cdwd='01' and
+		cd.lbdh=#{lbdh}
+	</select>
+
+	<!-- APP动态获取行员的菜单 -->
+	<select id="mpasapp_selectHydycd" parameterType="java.util.HashMap"
+		resultType="com.tiancom.mpas.pojo.Menu">
+		select cd.cdbh, cdmc, cdms, cddz, cdwd, cdtb, cdpx
+		from MPAS_XT_HYDYCD cd
+		where cd.tjrq =#{tjrq} and cd.khdxdh=#{khdxdh}
+	</select>
+</mapper>

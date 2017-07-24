@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.pojo.M_CSBDmms;
-import com.nf.pojo.M_KHB;
-import com.nf.pojo.M_RZB;
+import com.nf.app.bean.pojo.M_CSBDmms;
+import com.nf.app.bean.pojo.M_KHB;
+import com.nf.app.bean.pojo.M_RZB;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 @SuppressWarnings("unchecked")
 @Component

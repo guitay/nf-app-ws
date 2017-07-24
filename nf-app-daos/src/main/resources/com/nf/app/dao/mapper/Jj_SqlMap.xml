@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_JJ">
+	<!--根据行员类别和统计日期查询计价信息 -->
+	<select id="app_jj_getCustomers" resultType="com.tiancom.mpas.app.jj.Jj"
+		parameterType="java.util.Map" remapResults="true">
+		select csb.QSRQ,coalesce(csb.KFDJ,0)
+		kfdj,csb.BZXS,csb.HYLB,khfa.KHZBMC from
+		CSB_KHZBXS_HY csb ,KHFA_KHZB_HY
+		khfa
+		where csb.KHZBDH=khfa.KHZBDH
+		<if test="tjrq!=null" >
+			and $tjrq$ between qsrq and
+			jsrq
+		</if>
+		<if test="hylb!=null">
+			and hylb in('-1','$hylb$')
+		</if>
+	</select>
+</mapper>

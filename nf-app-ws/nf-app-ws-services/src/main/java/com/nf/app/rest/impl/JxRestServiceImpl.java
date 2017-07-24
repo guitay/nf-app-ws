@@ -19,21 +19,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.app.jx.APP_HF;
-import com.nf.app.jx.APP_JXGZ;
-import com.nf.app.jx.APP_JXHZ;
-import com.nf.app.jx.APP_JXMX;
-import com.nf.app.jx.APP_JXZC;
-import com.nf.app.jx.APP_KHQK;
-import com.nf.app.jx.APP_PL;
-import com.nf.app.jx.APP_XTXX;
-import com.nf.app.jx.APP_ZAN;
-import com.nf.app.jx.Hylb;
+import com.nf.app.bean.jx.APP_HF;
+import com.nf.app.bean.jx.APP_JXGZ;
+import com.nf.app.bean.jx.APP_JXHZ;
+import com.nf.app.bean.jx.APP_JXMX;
+import com.nf.app.bean.jx.APP_JXZC;
+import com.nf.app.bean.jx.APP_KHQK;
+import com.nf.app.bean.jx.APP_PL;
+import com.nf.app.bean.jx.APP_XTXX;
+import com.nf.app.bean.jx.APP_ZAN;
+import com.nf.app.bean.jx.Hylb;
+import com.nf.app.bean.jx.QhjxList;
+import com.nf.app.bean.jx.QhjxMx;
+import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.jx.JxService;
-import com.nf.app.jx.QhjxList;
-import com.nf.app.jx.QhjxMx;
 import com.nf.app.rest.JxRestService;
-import com.nf.pojo.QueryCondition;
 
 /**
  * 绩效工资CXF接口

@@ -11,7 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.nf.app.ckyy.Ckyy;
+import com.nf.app.bean.ckyy.Ckyy;
 
 @Path("/yjyy/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

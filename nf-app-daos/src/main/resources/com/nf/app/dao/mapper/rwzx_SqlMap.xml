@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<sqlMap namespace="APP_RWZX">
+
+	<insert id="rwzx_insertTask" parameterType="com.tiancom.mpas.app.rwzx.Rwxq">
+		
+		<![CDATA[
+		insert into
+		MPAS_GR_RWZX(KHDXDH,RWNR,RWDD,WCSJ,RWSM,SFWC,CZSJ,LXDH)
+		VALUES(#{khdxdh},#{rwnr},#{rwdd},#{wcsj}||'.00.0',
+		#{rwsm},#{sfwc},f_get_systime(),#{lxdh})
+		]]>
+	</insert>
+
+	<delete id="rwzx_deleteTaskByJldh" parameterType="com.tiancom.mpas.app.rwzx.Rwxq">
+		delete from MPAS_GR_RWZX
+		where rwbh=#{rwbh} and khdxdh=#{khdxdh}
+		<if test="wcsj!=null">
+			and char(wcsj) like
+			#{wcsj}%'
+		</if>
+		<if test="sfwc!=null">
+			and sfwc =#{sfwc}
+		</if>
+		<if test="rwnr!=null">
+			and rwnr like '%#{rwnr}%'
+		</if>
+		<if test="rwdd!=null">
+			and rwdd like '%#rwdd}%'
+		</if>
+		<if test="rwsm!=null">
+			and rwsm like '%#{rwsm}%'
+		</if>
+		<if test="lxdh!=null">
+			and lxdh = #{lxdh}
+		</if>
+	</delete>
+
+	<select id="rwzx_queryTaskByPara" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.rwzx.Rwxq">
+
+		select KHDXDH,RWBH,RWNR,RWDD,WCSJ,RWSM,SFWC,CZSJ,LXDH
+		from MPAS_GR_RWZX
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and khdxdh=#{khdxdh}
+			</if>
+			<if test="rwbh!=null">
+				and rwbh = #{rwbh}
+			</if>
+			<if test="sfwc!=null">
+				and sfwc = #{sfwc}
+			</if>
+			<if test="rwdd!=null">
+				and rwdd like '%#{rwdd}%'
+			</if>
+			<if test="rwnr!=null">
+				and rwnr like '%#{rwnr}%'
+			</if>
+			<if test="wcsj!=null">
+				and char(wcsj) like #{wcsj}%'
+			</if>
+			<if test="czsj!=null">
+				and czsj = f_get_systime()
+			</if>
+			<if test="rwsm!=null">
+				and rwsm like '%#{rwsm}%'
+			</if>
+			<if test="lxdh!=null">
+				and lxdh = #{lxdh}
+			</if>
+		</trim>
+		order by wcsj asc
+	</select>
+
+	<update id="rwzx_updateTaskByPara" parameterType="com.tiancom.mpas.app.rwzx.Rwxq">
+		update MPAS_GR_RWZX
+		<trim prefix="set" prefixOverrides="and">
+			<if test="rwnr!=null">
+				and rwnr = #{rwnr} ,
+			</if>
+			<if test="rwdd!=null">
+				and rwdd = #{rwdd},
+			</if>
+			<if test="wcsj!=null">
+				and wcsj = #{wcsj}||'.00.0',
+			</if>
+			<if test="rwsm!=null">
+				and rwsm = #{rwsm},
+			</if>
+			<if test="sfwc!=null">
+				and sfwc = #{sfwc},
+			</if>
+			<if test="lxdh!=null">
+				and lxdh = #{lxdh},
+			</if>
+		</trim>
+		czsj = f_get_systime()
+		where rwbh=#{rwbh} and khdxdh=#{khdxdh}
+	</update>
+</sqlMap>

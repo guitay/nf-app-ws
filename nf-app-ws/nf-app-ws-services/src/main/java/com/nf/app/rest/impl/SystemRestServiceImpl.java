@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.nf.app.bean.pojo.Dmms;
+import com.nf.app.bean.pojo.Hylb;
+import com.nf.app.bean.pojo.Jg;
+import com.nf.app.bean.pojo.MPAS_HY;
+import com.nf.app.bean.pojo.Menu;
+import com.nf.app.bean.pojo.XTCS;
 import com.nf.app.console.AppService;
 import com.nf.app.rest.SystemRestService;
 import com.nf.app.system.SystemService;
-import com.nf.pojo.Dmms;
-import com.nf.pojo.Hylb;
-import com.nf.pojo.Jg;
-import com.nf.pojo.MPAS_HY;
-import com.nf.pojo.Menu;
-import com.nf.pojo.XTCS;
 
 import io.swagger.annotations.Api;
 

@@ -3,6 +3,12 @@ package com.nf.app.grsz;
 import java.util.List;
 import java.util.Map;
 
+import com.nf.app.bean.grsz.FaInfo;
+import com.nf.app.bean.grsz.PfHyList;
+import com.nf.app.bean.grsz.PfInfo;
+import com.nf.app.bean.grsz.Txsz;
+import com.nf.app.bean.grsz.Xxts;
+
 
 /**
  * 我Service

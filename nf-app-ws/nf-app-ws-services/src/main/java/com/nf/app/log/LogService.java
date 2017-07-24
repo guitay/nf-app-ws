@@ -4,9 +4,9 @@ package com.nf.app.log;
 import java.util.List;
 import java.util.Map;
 
-import com.nf.pojo.M_CSBDmms;
-import com.nf.pojo.M_KHB;
-import com.nf.pojo.M_RZB;
+import com.nf.app.bean.pojo.M_CSBDmms;
+import com.nf.app.bean.pojo.M_KHB;
+import com.nf.app.bean.pojo.M_RZB;
 
 @SuppressWarnings("unchecked")
 public interface LogService {

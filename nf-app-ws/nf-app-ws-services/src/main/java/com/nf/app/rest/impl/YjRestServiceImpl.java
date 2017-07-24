@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nf.app.bean.yj.Zbxq;
 import com.nf.app.rest.YjRestService;
 import com.nf.app.yj.YjService;
-import com.nf.app.yj.Zbxq;
 
 @Path("/yj/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

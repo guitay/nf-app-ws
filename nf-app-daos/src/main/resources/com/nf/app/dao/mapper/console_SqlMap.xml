@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_APP">
+
+	<!-- 查看子菜单明细信息 -->
+	<select id="app_kh_hydycd" resultType="com.tiancom.mpas.app.console.CdPojo"
+		parameterType="java.util.HashMap">
+		SELECT CD.TJRQ,CD.KHDXDH,CD.CDBH,CD.CDMC,CD.CDMS,CD.CDWD,CD.CDDYB FROM
+		MPAS_XT_HYDYCD CD
+		WHERE CD.TJRQ=#{tjrq} AND CD.KHDXDH=#{khdxdh} AND
+		CD.CDBH=#{cdbh}
+	</select>
+
+	<!-- 更新菜单查看提醒 -->
+	<update id="app_kh_updateCustomerMenu" parameterType="java.util.Map">
+		
+		UPDATE MPAS_SZ_HYCDCKTX
+		SET SFCK ='1'
+		WHERE KHDXDH = #{khdxdh} AND CDBH = #{cdbh}
+	</update>
+
+
+	<!-- 添加日志 -->
+	<insert id="app_sz_insertCzrz" parameterType="java.util.Map">
+		
+		insert into MPAS_SZ_CZRZ (tjrq, dlkhdxdh, cdbh, czsj,cdmc, sfscdl)
+		values(#{tjrq}, #{dlkhdxdh}, #{cdbh},
+		f_get_timestamp('#{czsj}'),'#{cdmc}',#{sfscdl})
+	</insert>
+
+	<select id="app_sz_selectSfscdl" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		
+		select count(1) from MPAS_SZ_CZRZ where dlkhdxdh=#{dlkhdxdh}
+	</select>
+</mapper>

@@ -2,6 +2,8 @@ package com.nf.app.console;
 
 import java.util.Map;
 
+import com.nf.app.bean.console.CdPojo;
+
 
 /**
  * 核心Service

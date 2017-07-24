@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.nf.activemq.bean.MPasMessage;
+import com.nf.app.bean.grsz.FaInfo;
+import com.nf.app.bean.grsz.PfHyList;
+import com.nf.app.bean.grsz.PfInfo;
+import com.nf.app.bean.grsz.Txsz;
+import com.nf.app.bean.grsz.Xxts;
 import com.tiancom.mpas.mq.producer.MQProducer;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 

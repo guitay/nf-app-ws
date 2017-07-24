@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_JX">
+
+	<select id="app_jx_selectJxBykey" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXGZ">
+
+		select tjrq, khdxdh, jx, cast((jx-srjx)as decimal(19,2)) as
+		bsrjx,
+		cast((jx-symjx) as decimal(19,2)) as bsymjx,
+		cast((jx-srjx)*100.00/jx as decimal(19,2)) as bsrbl,
+		cast((jx-symjx)*100.00/jx as
+		decimal(19,2)) as bsymbl from(
+		SELECT
+		#{tjrq} tjrq, jx1.khdxdh, SUM(CASE WHEN jx1.tjrq=#{tjrq} THEN jx1.jx
+		ELSE 0 END) AS jx,
+		sum(case when ls.tjrq=sj.sr then (COALESCE(ls.jx,0)
+		) else 0 end) as srjx,
+		sum(case when ls.tjrq=sj.sym then
+		(COALESCE(ls.jx,0)) else 0 end) as
+		symjx
+		FROM MPAS_JX_JXGZ jx1
+		INNER JOIN
+		CSB_SJW sj ON sj.tjrq=#{tjrq} AND jx1.tjrq=sj.tjrq
+		LEFT JOIN
+		MPAS_JX_JXGZ_LSSJ ls ON ls.tjrq in(sj.sym, sj.sr) AND
+		ls.hykhdxdh=jx1.hykhdxdh
+		AND ls.jxlbdh=jx1.jxlbdh
+		WHERE
+		jx1.khdxdh=#{khdxdh} AND jx1.hykhdxdh=#{khdxdh}
+		GROUP BY jx1.khdxdh
+		) a
+	</select>
+
+	<select id="app_jx_selectJxmxList" parameterType="java.util.Map" resultType="com.tiancom.mpas.app.jx.APP_JXGZ">
+
+		<if test="ckflag=='1'">
+			select * from (
+			select
+			distinct substr(cast(jx.tjrq as char(8)),5,2) as tjrq, jx.hykhdxdh,
+			coalesce(sum(jx.jx),0) as jx
+			from MPAS_JX_JXGZ_LSSJ jx
+			inner join
+			csb_sjw sj on sj.tjrq=jx.tjrq and sj.ym=jx.tjrq
+			where jx.tjrq between
+			#{stjrq} and #{tjrq} and jx.hykhdxdh=#{khdxdh}
+			group by
+			jx.tjrq,jx.hykhdxdh
+			) jx
+			order by jx.tjrq
+		</if>
+		<if test="ckflag=='2'">
+			select
+			substr(cast(jx.tjrq
+			as char(8)),7,2) as tjrq, hykhdxdh,
+			coalesce(sum(jx),0) as jx
+			from
+			MPAS_JX_JXGZ jx
+			where jx.tjrq between f_change_days(#{tjrq}, -15) and
+			#{tjrq} and
+			jx.hykhdxdh=#{khdxdh}
+			and jx.khdxdh=#{khdxdh}
+			group by
+			jx.tjrq,hykhdxdh
+			order by jx.tjrq
+		</if>
+	</select>
+
+	<select id="app_jx_selectJxmxBykey" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXGZ">
+
+		select tjrq, khdxdh,
+		jxlbmc,jx,cast(jx*100.00/(sum(jx)over(partition
+		by tjrq, khdxdh)) as
+		decimal(19,2)) jxzb
+		from(
+		select jx.tjrq, khdxdh,jxlbdh, jxlbmc, sum(jx)
+		as jx
+		from MPAS_JX_JXGZ jx
+		where jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh}
+		and jx.hykhdxdh=#{khdxdh}
+		group by jx.tjrq,khdxdh,jxlbdh,jxlbmc
+		)a where
+		jx>0 order by jxlbdh,jx desc
+	</select>
+
+	<select id="app_jx_selectGoods" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_ZAN">
+
+		select count(1) zcnts,coalesce(max(case when
+		khdxdh=#{khdxdh} then 1
+		else 0 end),0) as sfz
+		from MPAS_XX_Z where tjrq
+		=#{tjrq} and
+		hykhdxdh=#{hykhdxdh}
+	</select>
+
+	<select id="app_jx_selectPlList" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_PL">
+
+		select distinct pl.khdxdh plrkhdxdh, hy.hymc as plr,
+		pl.plbh, pl.pl,
+		pl.czsj plsj,count(hf.plbh)over(partition by hf.plbh)
+		hfcnt
+		from
+		MPAS_XX_PL pl
+		inner join MPAS_XT_HY hy on hy.khdxdh=pl.khdxdh
+		left join
+		MPAS_XX_HF hf on hf.plbh=pl.plbh
+		where
+		pl.hykhdxdh=#{bplrkhdxdh} and
+		pl.tjrq=#{tjrq}
+	</select>
+
+	<select id="app_jx_selectHfList" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_HF">
+
+		select pl.khdxdh plrkhdxdh, hy.hymc as plr, pl.plbh, pl.pl,
+		pl.czsj
+		plsj,
+		hf.hfbh,hf.hykhdxdh hfrkhdxdh ,hfhy.hymc hfr, hf.hf,
+		hf.czsj hfsj
+		from MPAS_XX_PL pl
+		inner join MPAS_XT_HY hy on
+		hy.khdxdh=pl.khdxdh
+		left join MPAS_XX_HF hf on hf.plbh=pl.plbh
+		left join
+		MPAS_XT_HY hfhy on hfhy.khdxdh=hf.hykhdxdh
+		where pl.plbh=#{plbh}
+		order by
+		hfbh desc
+	</select>
+
+
+	<select id="app_jx_getHylb" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+
+		select lbdh as hylb, lbmc as hymc from #{tableName} group by
+		lbdh, lbmc
+	</select>
+
+
+
+	<insert id="app_jx_insertGoodHy" parameterType="java.util.Map">
+
+		insert into
+		MPAS_XX_Z(tjrq, khdxdh,hykhdxdh, cdbh, czsj)
+		values(#{tjrq}, #{khdxdh},
+		#{hykhdxdh}, #{cdbh}, f_get_systime() )
+	</insert>
+
+	<delete id="app_jx_deleteGoodHy" parameterType="java.util.Map">
+
+		delete from
+		MPAS_XX_Z where hykhdxdh=#{hykhdxdh} and khdxdh=#{khdxdh}
+		and tjrq=#{tjrq}
+		and cdbh=#{cdbh}
+	</delete>
+
+	<insert id="app_jx_insertXxpl" parameterType="java.util.Map">
+
+		insert into
+		MPAS_XX_PL( tjrq, khdxdh, hykhdxdh, cdbh, pl, czsj) values
+		( #{tjrq},
+		#{plrkhdxdh}, #{bplrkhdxdh}, #{cdbh}, '#{pl}', f_get_systime())
+	</insert>
+
+	<insert id="app_jx_insertXxhf" parameterType="java.util.Map">
+
+		insert into
+		MPAS_XX_hf( tjrq, hykhdxdh, plbh, hf, czsj) values
+		(
+		#{tjrq},
+		#{hfrkhdxdh}, #{plbh}, '#{hf}', f_get_systime())
+	</insert>
+
+	<delete id="app_jx_deleteXxpl" parameterType="java.util.Map">
+
+		delete from MPAS_XX_PL where plbh=#{plbh}
+	</delete>
+
+	<delete id="app_jx_deleteXxhf" parameterType="java.util.Map">
+
+		delete from MPAS_XX_HF
+		<trim prefix="where" prefixOverrides="and">
+			<if test="hfbh!=null">
+				and hfbh=#{hfbh}
+			</if>
+			<if test="plbh!=null">
+				and plbh=#{plbh}
+			</if>
+		</trim>
+	</delete>
+
+
+	<!-- 全行绩效排行榜 -->
+
+	<select id="app_jx_selectQhjxphbList" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+
+		select * from (
+		select distinct jx.hykhdxdh, jx.jgmc, jx.hymc, jx.lbdh,
+		jx.lbmc, jx.jxhz,
+		jx.qhpm ,
+		dense_rank()over(order by jx.qhpm asc ) pm1,
+		dense_rank()over(order by jx.qhpm desc ) pm2,
+		coalesce((jx.qhpm-sj.qhpm),0) bsyjx,
+		case when jx.jxhz=0 then 0 else
+		coalesce(cast((jx.jxhz-sj.jxhz)*100.00/jx.jxhz as decimal(19,2)),0)
+		end as jxbl
+		from mpas_jx_qhjxphb jx
+		inner join csb_sjw sjw on
+		sjw.tjrq=#{tjrq}
+		left join mpas_jx_qhjxphb_lssj sj on sj.tjrq=sjw.sym
+		and sj.hykhdxdh=jx.hykhdxdh and sj.jxlbdh=jx.jxlbdh
+		where
+		jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh}
+		<if test="lbdh!=null">
+			and jx.lbdh='#{lbdh}'
+		</if>
+		) a
+		<if test="pm!=null and pm=='1'">
+			where
+			 <![CDATA[  a.pm1 <=10 ]]>
+			order by a.pm1
+		</if>
+		<if test="pm!=null and pm=='2'">
+			where
+			  <![CDATA[ a.pm2<=10 ]]>
+			order by a.pm2
+		</if>
+
+	</select>
+
+
+	<select id="app_jx_selectJgjxphbList" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select * from (
+		select distinct jx.hykhdxdh, jx.jgmc, jx.hymc, jx.lbdh,
+		jx.lbmc, jx.jxhz,
+		jx.qhpm ,
+		dense_rank()over(order by jx.qhpm asc ) pm1,
+		dense_rank()over(order by jx.qhpm desc ) pm2,
+		coalesce((jx.jxhz-sj.jxhz),0) bsyjx,
+		case when jx.jxhz=0 then 0 else
+		coalesce(cast((jx.jxhz-sj.jxhz)*100/jx.jxhz as decimal(19,2)),0) end
+		as jxbl
+		from mpas_jx_jgjxphb jx
+		inner join csb_sjw sjw on
+		sjw.tjrq=#{tjrq}
+		left join mpas_jx_qhjxphb_lssj sj on sj.tjrq=sjw.sym
+		and sj.hykhdxdh=jx.hykhdxdh and sj.jxlbdh=jx.jxlbdh
+		where
+		jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh}
+		<if test="lbdh!=null">
+			and jx.lbdh='#{lbdh}'
+		</if>
+		) a
+		<if test="pm!=null and pm=='1'">
+			where
+			 <![CDATA[  a.pm1 <=10 ]]>
+			order by a.pm1
+		</if>
+		<if test="pm!=null and pm=='2'">
+			where
+			  <![CDATA[ a.pm2<=10 ]]>
+			order by a.pm2
+		</if>
+	</select>
+
+
+	<select id="app_jx_selectQhjxqsList" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXGZ">
+		<if test="ckflag=='1'">
+			select substr(cast(sj.ym as char(8)),5,2) as tjrq,
+			jx.hykhdxdh,
+			coalesce(sum(jx.jx),0) as jx
+			from CSB_SJW sj
+			inner join
+			MPAS_JX_QHJXPHB ph on ph.tjrq=#{tjrq} and ph.khdxdh=#{khdxdh} and
+			ph.hykhdxdh=#{hykhdxdh}
+			inner join MPAS_JX_QHJXPHB_LSSJ jx on
+			jx.tjrq=sj.tjrq and
+			jx.hykhdxdh=ph.hykhdxdh and jx.jxlbdh=ph.jxlbdh
+			where sj.tjrq between #{stjrq} and #{tjrq}
+			group by sj.ym,jx.hykhdxdh
+			order by sj.ym
+		</if>
+		<if test="ckflag=='2'">
+			select
+			substr(cast(sj.tjrq as char(8)),7,2) as tjrq,
+			jx.hykhdxdh,
+			coalesce(sum(jx),0) as jx
+			from CSB_SJW sj
+			left join
+			MPAS_JX_QHJXPHB jx on jx.tjrq=sj.tjrq and jx.khdxdh=#{khdxdh}
+			and
+			jx.hykhdxdh=#{hykhdxdh}
+			where sj.tjrq between f_change_days(#{tjrq},
+			-15) and #{tjrq}
+			group by sj.tjrq,jx.hykhdxdh
+			order by sj.tjrq
+		</if>
+	</select>
+
+	<select id="app_jx_selectqhjxmxBykey" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXGZ">
+		select a.tjrq, a.hykhdxdh, hymc, lbmc, jgmc,
+		jxlbmc,a.jx,cast((a.jx*100/(lsb.jx)) as decimal(19,2)) jxzb
+		from(
+		select tjrq, hykhdxdh, hymc, lbmc, jgmc, jxlbmc, sum(jx) as jx
+		from
+		MPAS_JX_QHJXPHB jx
+		where jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh} and
+		jx.hykhdxdh=#{hykhdxdh}
+		group by tjrq,hykhdxdh, hymc, lbmc, jgmc,
+		jxlbmc, jxlbmc
+		)a
+		inner join (select tjrq,hykhdxdh,sum(jx) jx
+		from
+		MPAS_JX_QHJXPHB
+		group by tjrq,hykhdxdh
+		)lsb
+		on a.tjrq=lsb.tjrq and
+		a.hykhdxdh=lsb.hykhdxdh
+		where a.jx>0
+	</select>
+
+	<select id="select_jx_sekectHyqhjxphbList" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		<if test="flag=='1'">
+			select distinct jx.hykhdxdh, jx.jgmc, jx.hymc, jx.lbdh, jx.lbmc,
+			jx.pm as pm
+			,count(xx.khdxdh)over(partition by xx.khdxdh ) zcnt,
+			(case
+			when xx.khdxdh=#{khdxdh} then 1 else 0 end) as sfz
+			from MPAS_JX_TDJXPHB
+			jx
+			left join MPAS_XX_Z xx on xx.hykhdxdh=jx.hykhdxdh
+			and
+			jx.tjrq=xx.tjrq
+			where jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh} and <![CDATA[jx.pm <=10]]>
+			<if test="lbdh!=null">
+				and jx.lbdh='#{lbdh}'
+			</if>
+			order by jx.pm
+		</if>
+		<if test="flag=='2'">
+			select distinct jx.hykhdxdh, jx.jgmc, jx.hymc, jx.lbdh, jx.lbmc,
+			jx.qhpm as pm
+			,count(xx.khdxdh)over(partition by xx.khdxdh ) zcnt,
+			(case when xx.khdxdh=#{khdxdh} then 1 else 0 end) as sfz
+			from
+			MPAS_JX_QHJXPHB jx
+			left join MPAS_XX_Z xx on xx.hykhdxdh=jx.hykhdxdh
+			and jx.tjrq=xx.tjrq
+			where jx.tjrq=#{tjrq} and jx.khdxdh=#{khdxdh} and <![CDATA[jx.qhpm <=10]]>
+			<if test="lbdh!=null">
+				and jx.lbdh='#{lbdh}'
+			</if>
+			order by jx.qhpm
+		</if>
+	</select>
+
+
+	<insert id="insert_jx_insertXtxx" parameterType="com.tiancom.mpas.app.jx.APP_XTXX">
+
+		insert into
+		MPAS_GR_ZXXX (tjrq, khdxdh, hykhdxdh, xxwd, xxlx, xxzt,
+		xxnr, xxsj,
+		sfck, xxdz, sfzy,bxr)
+		values (#{tjrq}, #{khdxdh}, #{hykhdxdh},
+		'#{xxwd}',
+		'#{xxlx}', '}xxzt}', '#{xxnr}',
+		f_get_systime(), '0', '#{xxdz}',
+		'#{sfzy}',(select hymc from mpas_xt_hy where
+		khdxdh=#{khdxdh}))
+	</insert>
+
+	<delete id="delete_jx_deleteXtxx" parameterType="com.tiancom.mpas.app.jx.APP_XTXX">
+
+		delete from
+		MPAS_GR_ZXXX
+		where tjrq=#{tjrq} and khdxdh=#{khdxdh} and
+		hykhdxdh=#{hykhdxdh}
+		and xxlx='#{xxlx}' and xxwd='#{xxwd}'
+	</delete>
+	<select id="app_jx_selectJxhzByKhdxdh" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXHZ">
+
+		select tjrq,gwlbmc,gzhz,tgwpm,qhpm,bsy
+		from mpas_jxbg_gzhz
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and khdxdh = #{khdxdh}
+			</if>
+			<if test="tjrq!=null">
+				and substr(cast(tjrq as char(8)),1,6) =
+				substr(cast(#{tjrq} as char(8)),1,6)
+			</if>
+		</trim>
+	</select>
+
+	<select id="app_jx_selectJxzcByKhdxdh" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXZC">
+
+		select tjrq,gzlb,gz,gwlbmc
+		from mpas_jxbg_gzzc
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and khdxdh = #{khdxdh}
+			</if>
+			<if test="tjrq!=null">
+				and substr(cast(tjrq as char(8)),1,6) =
+				substr(cast(#{tjrq} as char(8)),1,6)
+			</if>
+		</trim>
+	</select>
+
+	<select id="app_jx_selectJxmxByKhdxdh" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_JXMX">
+		select tjrq,substr(cast(tjrq as char(8)),5,2) ||'月' as
+		yf,gzxbh,gzxmc,gzxz,pm
+		from mpas_jxbg_gzmx
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and khdxdh = #{khdxdh}
+			</if>
+			<if test="tjrq!=null">
+				and substr(cast(tjrq as char(8)),1,6) =
+				substr(cast(#{tjrq} as char(8)),1,6)
+			</if>
+		</trim>
+	</select>
+
+	<select id="app_jx_selectKhqkByKhdxdh" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.jx.APP_KHQK">
+		select qk.tjrq,substr(cast(qk.tjrq as char(8)),5,2) ||'月' as
+		yf,qk.khfl,qk.khh,qk.khmc,qk2.khsl
+		from mpas_jxbg_khqk qk
+		inner join
+		(select tjrq,khdxdh,khfl,count(1) as khsl from mpas_jxbg_khqk group by
+		tjrq,khdxdh,khfl)
+		qk2 on qk.tjrq=qk2.tjrq and qk.khdxdh=qk2.khdxdh and
+		qk.khfl=qk2.khfl
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and qk.khdxdh = #{khdxdh}
+			</if>
+			<if test="tjrq!=null">
+				and substr(cast(qk.tjrq as char(8)),1,6) =
+				substr(cast(#{tjrq} as char(8)),1,6)
+			</if>
+		</trim>
+	</select>
+</mapper>

@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.nf.pojo.Dmms;
-import com.nf.pojo.Hylb;
-import com.nf.pojo.Jg;
-import com.nf.pojo.MPAS_HY;
-import com.nf.pojo.M_YH;
-import com.nf.pojo.Menu;
-import com.nf.pojo.XTCS;
+import com.nf.app.bean.pojo.Dmms;
+import com.nf.app.bean.pojo.Hylb;
+import com.nf.app.bean.pojo.Jg;
+import com.nf.app.bean.pojo.MPAS_HY;
+import com.nf.app.bean.pojo.M_YH;
+import com.nf.app.bean.pojo.Menu;
+import com.nf.app.bean.pojo.XTCS;
 import com.tiancom.mpas.config.MPasConfig;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 

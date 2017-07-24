@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.nf.pojo.APP_KH;
+import com.nf.app.bean.pojo.APP_KH;
 
 public class KhCommon {
 

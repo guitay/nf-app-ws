@@ -2,6 +2,8 @@ package com.nf.app.zdwd;
 
 import java.util.List;
 
+import com.nf.app.bean.zdwd.Zdwd;
+
 
 /**
  * 制度文档Service

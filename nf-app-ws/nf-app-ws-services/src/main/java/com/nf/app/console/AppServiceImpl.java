@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.nf.app.bean.console.CdPojo;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 
 /**
@@ -13,18 +14,11 @@ import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
  * @author zhouyan
  *
  */
-@SuppressWarnings("unchecked")
+
 @Component
-@Qualifier("AppServiceBean")
+
 public class AppServiceImpl implements AppService {
-	@Autowired
-	private IBaseDAO ibaseDAO;
-	public IBaseDAO getIbaseDAO() {
-		return ibaseDAO;
-	}
-	public void setIbaseDAO(IBaseDAO ibaseDAO) {
-		this.ibaseDAO = ibaseDAO;
-	}
+	
 	
 	public CdPojo getKhcdPojoByPrimary(Map map) {
 		return (CdPojo)ibaseDAO.selectByPrimaryKey("app_kh_hydycd", map);

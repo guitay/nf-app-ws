@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nf.app.bean.pojo.QueryCondition;
+import com.nf.app.bean.zdwd.Zdwd;
 import com.nf.app.rest.ZdwdRestService;
-import com.nf.app.zdwd.Zdwd;
 import com.nf.app.zdwd.ZdwdService;
-import com.nf.pojo.QueryCondition;
 
 @Path("/zdwd/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

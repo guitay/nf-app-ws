@@ -20,17 +20,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.app.grsz.FaInfo;
+import com.nf.app.bean.grsz.FaInfo;
+import com.nf.app.bean.grsz.PfHyList;
+import com.nf.app.bean.grsz.PfInfo;
+import com.nf.app.bean.grsz.Txsz;
+import com.nf.app.bean.grsz.Xxts;
+import com.nf.app.bean.grsz.Yhfk;
+import com.nf.app.bean.grsz.ZxpfCs;
+import com.nf.app.bean.grsz.ZxpfPojo;
+import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.grsz.GrszService;
-import com.nf.app.grsz.PfHyList;
-import com.nf.app.grsz.PfInfo;
-import com.nf.app.grsz.Txsz;
-import com.nf.app.grsz.Xxts;
-import com.nf.app.grsz.Yhfk;
-import com.nf.app.grsz.ZxpfCs;
-import com.nf.app.grsz.ZxpfPojo;
 import com.nf.app.rest.GrszRestService;
-import com.nf.pojo.QueryCondition;
 
 /**
  * 系统参数CXF接口

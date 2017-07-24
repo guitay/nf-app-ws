@@ -3,13 +3,13 @@ package com.nf.app.system;
 import java.util.List;
 import java.util.Map;
 
-import com.nf.pojo.Dmms;
-import com.nf.pojo.Hylb;
-import com.nf.pojo.Jg;
-import com.nf.pojo.MPAS_HY;
-import com.nf.pojo.M_YH;
-import com.nf.pojo.Menu;
-import com.nf.pojo.XTCS;
+import com.nf.app.bean.pojo.Dmms;
+import com.nf.app.bean.pojo.Hylb;
+import com.nf.app.bean.pojo.Jg;
+import com.nf.app.bean.pojo.MPAS_HY;
+import com.nf.app.bean.pojo.M_YH;
+import com.nf.app.bean.pojo.Menu;
+import com.nf.app.bean.pojo.XTCS;
 
 
 

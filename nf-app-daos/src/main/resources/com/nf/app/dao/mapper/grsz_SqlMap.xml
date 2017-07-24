@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_Grsz">
+
+	<select id="APP_Grsz_selectXxList" parameterType="java.util.Map"
+		resultType="com.tiancom.mpas.app.grsz.Xxts">
+
+		select distinct bh,xxlx,xxlj,tsnr,tssj xxsj,tshy,zt
+		from MPAS_SZ_XXTS
+		<trim prefix="where" prefixOverrides="and">
+			<if test="tshy!=null">
+				and tshy = #tshy#
+			</if>
+			<if test="bh!=null">
+				and bh = #bh#
+			</if>
+			<if test="xxlx!=null">
+				and xxlx = #xxlx#
+			</if>
+			<if test="xxsj!=null">
+				and char(tssj) like #{xxsj}%'
+			</if>
+			<if test="xxlj!=null">
+				and xxlj = #xxlj#
+			</if>
+			<if test="tsnr!=null">
+				and tsnr like '%tsnr%'
+			</if>
+			<if test="zt!=null">
+				and zt = #zt#
+			</if>
+			<if test="otsnr!=null">
+				and <![CDATA[tssj < #{otsnr}||'.05.0']]>
+			</if>
+		</trim>
+		order by tssj desc
+	</select>
+
+	<update id="APP_Grsz_updateXxzt" parameterType="com.tiancom.mpas.app.grsz.Xxts">
+		<if test="db">
+    		<![CDATA[/**!mycat:datanode=#{db}**/]]>
+		</if>
+		update MPAS_SZ_XXTS
+		<trim prefix="set" suffixOverrides=",">
+			<if test="zt!=null">
+				tshy = #{tshy},
+			</if>
+			<if test="zt!=null">
+				zt=#{zt},
+			</if>
+			<if test="tsnr!=null">
+				tsnr=#{tsnr},
+			</if>
+			<if test="xxsj!=null">
+				tssj=#{xxsj},
+			</if>
+		</trim>
+
+		<trim prefix="where" prefixOverrides="and">
+			<if test="bh!=null">
+				and bh=#{bh}
+			</if>
+			<if test="otsnr!=null">
+				and tsnr=#{otsnr}
+			</if>
+		</trim>
+	</update>
+
+	<insert id="APP_Grsz_insertXxts" parameterType="com.tiancom.mpas.app.grsz.Xxts">
+		insert into MPAS_SZ_XXTS(xxlx, xxlj, tsnr, tssj, tshy ,zt)
+		values
+		(#{xxlx},#{xxlj},#{tsnr},
+		<if test="xxsj!=null">
+			#{xxsj},
+		</if>
+		<isEmpty test="xxsj!=null">
+			f_get_systime(),
+		</isEmpty>
+		#{tshy},'0')
+	</insert>
+
+	<select id="APP_Grsz_selectTxsz" parameterType="com.tiancom.mpas.app.grsz.Txsz"
+		resultType="com.tiancom.mpas.app.grsz.Txsz">
+		select distinct khdxdh,cslx,csz,sfqy
+		from MPAS_SZ_GRCSSZ
+		<trim prefix="where" prefixOverrides="and">
+			<if test="khdxdh!=null">
+				and khdxdh = #{khdxdh}
+			</if>
+			<if test="sfqy!=null">
+				and sfqy = #{sfqy}
+			</if>
+			<if test="cslx!=null">
+				and cslx = #{cslx}
+			</if>
+		</trim>
+	</select>
+
+	<update id="APP_Grsz_updateTxsz" parameterType="com.tiancom.mpas.app.grsz.Txsz">
+
+		update MPAS_SZ_GRCSSZ
+		set sfqy=#{sfqy}
+		<if test="csz!=null">
+			,csz=#{csz}
+		</if>
+		where khdxdh =#{khdxdh}
+		<if test="cslx!=null">
+			and cslx=#{cslx}
+		</if>
+	</update>
+
+	<insert id="APP_Grsz_insertYhfk" parameterType="java.util.Map">
+
+		insert into
+		MPAS_GR_YHFK(tjrq, hykhdxdh, dzyx, sjhm, yjfk, txrq)
+		values (#{tjrq},
+		#{khdxdh}, #{email}, #{phone}, #{lynr},
+		f_get_timestamp(#{txrq}))
+	</insert>
+
+	<select id="APP_Grsz_getZxpf" resultType="com.tiancom.mpas.app.grsz.PfHyList"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT #{tjrq}
+		TJRQ,pf.pfksrq,pf.pfjsrq,pf.khfamc as
+		famc,pf.khzq,PF.fabh,PF.khqs,HY.KHDXDH , HY.HYMC AS khdxmc,
+		HY.HYDH
+		DH,HY.JGMC,HY.LBMC ,PF.KHDX
+		FROM MPAS_GR_ZXPF PF
+		INNER JOIN MPAS_XT_HY
+		HY ON HY.KHDXDH = PF.KHDXDH
+		WHERE pf.pfzt = #{pfzt} and PF.DFZKHDXDH =
+		#{khdxdh}
+		AND PF.KHDX = '2' and #{tjrq} between pf.pfksrq and pf.pfjsrq
+		UNION ALL
+		SELECT DISTINCT #{tjrq} TJRQ, pf.pfksrq,pf.pfjsrq, pf.khfamc
+		as
+		famc,pf.khzq,PF.fabh,PF.khqs,
+		JG.KHDXDH , JG.JGMC AS khdxmc,JG.JGDH
+		AS dh,JG.JGMC, jglb.lbmc ,PF.KHDX
+		FROM MPAS_GR_ZXPF PF
+		INNER JOIN
+		KHDX_JG JG ON JG.KHDXDH = PF.KHDXDH
+		inner join khdx_Jglb jglb on
+		jg.khdxdh = jglb.khdxdh
+		WHERE pf.pfzt = #pfzt# and PF.DFZKHDXDH =
+		#{khdxdh}
+		AND PF.KHDX = '1' and #{tjrq} between jglb.qsrq and jglb.jsrq
+		and #{tjrq} between pf.pfksrq and pf.pfjsrq
+		order by tjrq desc
+
+	</select>
+
+	<select id="APP_Grsz_getPfInfo" resultType="com.tiancom.mpas.app.grsz.PfInfo"
+		parameterType="java.util.HashMap">
+
+		SELECT KHFAMC famc, KHDXDH, WDMC,
+		XMMC, KHNR, FABH,KHQS, XMBH, XMDFSX,
+		XMDFXX FROM MPAS_GR_ZXPF WHERE
+		DFZKHDXDH=#khdxdh# and PFZT=#pfzt#
+	</select>
+
+
+	<select id="APP_Grsz_getPfSelect" resultType="com.tiancom.mpas.app.grsz.FaInfo"
+		parameterType="java.util.HashMap">
+
+		SELECT PJBH, PJBZ, BZF FROM
+		MPAS_GR_KHPJBZ WHERE FABH=#{fabh} and
+		KHZBDH=#{xmbh}
+	</select>
+
+	<update id="APP_Grsz_updatePfInfo" parameterType="java.util.Map">
+		update MPAS_GR_ZXPF SET DF=#df# , PFZT='1'
+		WHERE DFZKHDXDH=#{khdxdh} AND
+		KHDXDH=#{hykhdxdh} AND FABH=#{khfabh} AND
+		XMBH=#{xmbh}
+		<if test="khqs!=null">
+			and khqs = #khqs#
+		</if>
+	</update>
+
+
+	<update id="update_znbs_zxpfz_df" parameterType="java.util.HashMap">
+
+		update
+		khfa_zxpfz pfz set pf = (select cast(t.df as decimal(19,2))
+		from
+		mpas_gr_zxpf t
+		where cast(t.fabh as integer) = pfz.fabh and pfz.khqs =
+		cast(t.khqs as
+		integer)
+		and pfz.xmbh = cast(t.xmbh as integer)
+		and
+		pfz.pjr=cast(t.dfzkhdxdh as integer) and pfz.khdxdh = cast(t.hykhdxdh
+		as integer)
+
+		)
+		where exists(
+		select 1 from mpas_gr_zxpf t
+		where cast(t.fabh
+		as integer) = pfz.fabh and pfz.khqs = cast(t.khqs as
+		integer)
+		and
+		pfz.xmbh = cast(t.xmbh as integer)
+		and pfz.pjr=cast(t.dfzkhdxdh as
+		integer) and pfz.khdxdh = cast(t.hykhdxdh
+		as integer)
+		and
+		t.DFZKHDXDH=#{khdxdh} AND t.HYKHDXDH=#{hykhdxdh}
+		and t.FABH=#khfabh# AND
+		t.XMBH=#xmbh# and t.khqs = #khqs#
+		)
+	</update>
+
+	<update id="update_znbs_zxpffa_pfzt" parameterType="java.util.HashMap">
+
+		update
+		khfa_zxpffa pfa set pfa.pfzt = '1'
+		where exists(
+		select 1 from
+		mpas_gr_zxpf t
+		where cast(t.fabh as integer) = pfa.fabh and pfa.khqs =
+		cast(t.khqs as
+		integer) and pfa.pjr=cast(t.dfzkhdxdh as integer)
+		and
+		pfa.khdxdh = cast(t.hykhdxdh as integer) and t.DFZKHDXDH=#{khdxdh}
+		AND
+		t.HYKHDXDH=#{hykhdxdh}
+		and t.FABH=#khfabh# AND t.XMBH=#xmbh# and t.khqs
+		= #khqs#
+		)
+	</update>
+
+
+	<update id="update_znbs_zxpffa_py" parameterType="java.util.HashMap">
+
+		update
+		khfa_zxpffa pfa set pfa.py = #py#
+		where pfa.fabh = #khfabh# and
+		pfa.khqs=#khqs# and pfa.pjr=#dfzkhdxdh# and pfa.khdxdh=#hykhdxdh#
+	</update>
+
+</mapper>

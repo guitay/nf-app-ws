@@ -3,6 +3,8 @@ package com.nf.app.jj;
 import java.util.List;
 import java.util.Map;
 
+import com.nf.app.bean.jj.Jj;
+
 	/**
 	 * 计价Service
 	 * @author 

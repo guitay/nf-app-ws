@@ -3,6 +3,8 @@ package com.nf.app.rwzx;
 import java.util.List;
 import java.util.Map;
 
+import com.nf.app.bean.rwzx.Rwxq;
+
 public interface RwzxService {
 	
 	public void insertTask(Rwxq rw);

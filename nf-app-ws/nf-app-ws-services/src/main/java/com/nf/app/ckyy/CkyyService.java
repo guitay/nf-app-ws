@@ -3,6 +3,8 @@ package com.nf.app.ckyy;
 import java.util.List;
 import java.util.Map;
 
+import com.nf.app.bean.ckyy.Ckyy;
+
 
 /**
  * 存款预约Service

@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nf.app.bean.pojo.QueryCondition;
+import com.nf.app.bean.rwzx.Rwxq;
 import com.nf.app.rest.RwzxRestService;
-import com.nf.app.rwzx.Rwxq;
 import com.nf.app.rwzx.RwzxService;
-import com.nf.pojo.QueryCondition;
 
 @Path("/rwzx/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

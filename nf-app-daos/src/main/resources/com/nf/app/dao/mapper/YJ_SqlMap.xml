@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<sqlMap namespace="APP_YJ">
+	<!-- 查看个人业绩的指标信息 -->
+	<select id="app_yj_getKhGrzbs" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT yj.KHZBMC,yj.KHZBZ,yj.KHZBDH,COALESCE(yj.JHZ,0)
+		JHZ,yj.DF,yj.JGNPM,yj.QHPM,
+		zb.SDBS,zb.BZ
+		from MPAS_YJ_GRYJ yj
+		INNER JOIN
+		MPAS_PAS_HZKHZB zb on yj.khzbdh=zb.khzbdh and khlx='2'
+		WHERE TJRQ =
+		#{tjrq} AND KHDXDH = #{khdxdh} AND YWLB=#{ywlb}
+
+	</select>
+
+	<!-- 查看机构业绩的指标信息 -->
+	<select id="app_yj_getJgKhzbs" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT
+		yj.KHZBDH,yj.KHZBMC,yj.KHZBZ,COALESCE(yj.JHZ,0)
+		JHZ,yj.KHZQ,yj.DF,
+		zb.SDBS,zb.TJKJ,zb.BZ
+		FROM MPAS_YJ_JGYJ yj
+		INNER JOIN
+		MPAS_PAS_HZKHZB zb
+		on yj.khzbdh=zb.khzbdh and khlx='1'
+		WHERE
+		TJRQ=#{tjrq}
+		AND YWLB='#{ywlb}
+
+		AND JGDH=(SELECT JGDH FROM MPAS_XT_HY
+		WHERE KHDXDH=#{khdxdh})
+
+	</select>
+
+	<!-- 查看全行业绩的指标信息 -->
+	<select id="app_yj_getQhKhzbs" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT yj.KHZBDH,
+		yj.KHZBMC,zb.sdbs,zb.tjkj,zb.bz
+		FROM MPAS_YJ_QHYJ yj
+		INNER JOIN
+		MPAS_PAS_HZKHZB zb on yj.khzbdh=zb.khzbdh and khlx='1'
+		WHERE
+		TJRQ=#{tjrq} AND YWLB=#{ywlb}
+
+		AND KHDXDH=#{khdxdh}
+
+	</select>
+
+	<!-- 查看全行业绩的指标信息明细 -->
+	<select id="app_yj_getMxInfoByKhzbdh" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+
+		SELECT DISTINCT KHZBMC, KHZBZ, JGMC,JGDH,
+		COALESCE(yj.JHZ,0) JHZ,DF
+		FROM
+		MPAS_YJ_QHYJ
+		WHERE KHZBDH=#{khzbdh#{
+		AND
+		TJRQ=#{tjrq}
+
+	</select>
+
+	<!-- 查看虚拟行员业绩的指标信息明细 -->
+	<select id="app_yj_getXnhyzbs" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+
+
+		SELECT KHZBMC, KHZBZ, JGZBZ, ZB FROM MPAS_YJ_XNHYYJ
+		WHERE TJRQ=#{tjrq#{
+		AND
+		KHDXDH=#{khdxdh} and YWLB=#{ywlb}
+	</select>
+	<select id="app_yj_getJgZbInfo" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		select distinct KHZBZ,COALESCE(yj.JHZ,0) JHZ,DF,QHPM
+		from MPAS_YJ_JGYJ
+		WHERE TJRQ=#{tjrq} AND KHZBDH=#{khzbdh} AND
+		JGDH=(SELECT JGDH FROM
+		MPAS_XT_HY WHERE KHDXDH=#{khdxdh})
+	</select>
+
+	<select id="app_yj_getJgZbInfoInQh" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+
+		select distinct KHZBZ,COALESCE(yj.JHZ,0)
+		JHZ,DF,coalesce(QHPM,0) QHPM
+		from
+		MPAS_YJ_QHYJ WHERE TJRQ=#{tjrq} AND
+		KHZBDH=#{khzbdh} AND
+		JGDH=#{jgdh}
+	</select>
+
+	<select id="app_yj_getPreJgZbInfoInQh" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT KHZBZ KHZBZ_PRE , JGMC JGMC_PRE,
+		COALESCE(JHZ,0)
+		JHZ_PRE,DF DF_PRE,coalesce(QHPM,0) QHPM_PRE FROM
+		MPAS_YJ_JGYJ_LSSJ
+		WHERE TJRQ=#{tjrq} AND KHZBDH=#{khzbdh} AND
+		JGDH=(SELECT JGDH FROM
+		MPAS_XT_HY WHERE KHDXDH=#{khdxdh})
+	</select>
+
+	<select id="app_yj_getPreTjrq" resultType="java.util.HashMap"
+		parameterType="java.lang.String">
+
+		select SYM,SNM,SJM from csb_sjw where tjrq=#{tjrq}
+	</select>
+	<select id="app_yj_getPreJgZbInfo" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT DISTINCT KHZBMC KHZBMC_PRE, KHZBZ KHZBZ_PRE ,
+		JGMC JGMC_PRE,
+		COALESCE(JHZ,0) JHZ_PRE,DF DF_PRE,coalesce(QHPM,0)
+		QHPM_PRE FROM
+		MPAS_YJ_JGYJ_LSSJ WHERE KHZBDH=#{khzbdh} AND TJRQ=#{tjrq}
+		AND
+		JGDH=#{jgdh}
+	</select>
+	<select id="app_yj_getGrzbInfo" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT KHZBMC,KHZBZ,KHZBDH,COALESCE(yj.JHZ,0)
+		JHZ,DF,JGNPM,QHPM from
+		MPAS_YJ_GRYJ WHERE TJRQ = #{tjrq} AND KHDXDH =
+		#{khdxdh} AND
+		KHZBDH=#{khzbdh}
+	</select>
+
+	<select id="app_yj_getPreGrZbInfo" resultType="com.tiancom.mpas.app.yj.Zbxq"
+		parameterType="java.util.HashMap">
+
+		SELECT KHZBMC KHZBMC_PRE,KHZBZ KHZBZ_PRE,KHZBDH
+		KHZBDH_PRE,COALESCE(JHZ,0) JHZ_PRE,DF DF_PRE,JGNPM JGNPM_PRE,QHPM
+		QHPM_PRE from MPAS_YJ_GRYJ_LSSJ WHERE TJRQ = #{tjrq} AND HYKHDXDH =
+		#{khdxdh} AND KHZBDH=#{khzbdh}
+	</select>
+
+</sqlMap>

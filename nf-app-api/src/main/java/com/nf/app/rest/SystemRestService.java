@@ -14,12 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.nf.pojo.Dmms;
-import com.nf.pojo.Hylb;
-import com.nf.pojo.Jg;
-import com.nf.pojo.MPAS_HY;
-import com.nf.pojo.Menu;
-import com.nf.pojo.XTCS;
+import com.nf.app.bean.pojo.Dmms;
+import com.nf.app.bean.pojo.Hylb;
+import com.nf.app.bean.pojo.Jg;
+import com.nf.app.bean.pojo.MPAS_HY;
+import com.nf.app.bean.pojo.Menu;
+import com.nf.app.bean.pojo.XTCS;
 
 import io.swagger.annotations.Api;
 

@@ -6,6 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nf.app.bean.jx.APP_HF;
+import com.nf.app.bean.jx.APP_JXGZ;
+import com.nf.app.bean.jx.APP_JXHZ;
+import com.nf.app.bean.jx.APP_JXMX;
+import com.nf.app.bean.jx.APP_JXZC;
+import com.nf.app.bean.jx.APP_KHQK;
+import com.nf.app.bean.jx.APP_PL;
+import com.nf.app.bean.jx.APP_XTXX;
+import com.nf.app.bean.jx.APP_ZAN;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 
 /**

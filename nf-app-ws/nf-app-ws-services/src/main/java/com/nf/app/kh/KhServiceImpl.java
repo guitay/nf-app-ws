@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nf.pojo.APP_KH;
+import com.nf.app.bean.pojo.APP_KH;
 import com.tiancom.pas.common.framework.ibatis.IBaseDAO;
 
 /**
