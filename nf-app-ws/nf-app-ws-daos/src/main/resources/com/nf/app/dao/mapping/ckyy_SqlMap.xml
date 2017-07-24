@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP_CKYY">
+	
+	<delete id="ckyy_deleteByPk" parameterClass="java.util.HashMap">
+		<!-- delete from jxdx_yyyj where lsh = #lsh# and yylx='01' -->
+		
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		delete from jxdx_yyyj where lsh = #lsh# and  khdxdh=#khdxdh#
+	</delete>
+	
+	<resultMap class="com.tiancom.mpas.app.ckyy.Ckyy" id="Ckyy_ResultMap">
+		<result column="LSH" jdbcType="INTEGER" property="lsh"/>
+		<result column="KHDXDH" jdbcType="INTEGER" property="khdxdh"/>
+		<result column="JGKHDXDH" jdbcType="INTEGER" property="jgkhdxdh"/>
+		<result column="JGMC" jdbcType="VARCHAR" property="jgmc"/>
+		<result column="KHLX" jdbcType="INTEGER" property="khlx"/>
+		<result column="KHMC" jdbcType="VARCHAR" property="khmc"/>
+		<result column="ZJLB" jdbcType="VARCHAR" property="zjlb"/>
+		<result column="ZJHM" jdbcType="VARCHAR" property="zjhm"/>
+		<result column="YJJE" jdbcType="DECIMAL" property="yjje"/>
+		<result column="BLRQ" jdbcType="INTEGER" property="blrq"/>
+		<result column="YYQSRQ" jdbcType="INTEGER" property="yyqsrq"/>
+		<result column="YYJSRQ" jdbcType="INTEGER" property="yyjsrq"/>
+		<result column="BZ" jdbcType="VARCHAR" property="bz"/>
+		<result column="PPBZ" jdbcType="VARCHAR" property="ppbz"/>
+	</resultMap>
+	
+	<select id="ckyy_loadByPk" resultMap="Ckyy_ResultMap" parameterClass="java.util.HashMap">
+		
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select yy.lsh,yy.khdxdh,yy.jgkhdxdh,yy.khlx,yy.khmc,yy.zjlb,yy.zjhm,yy.yjje,yy.blrq,yy.yyqsrq,yy.yyjsrq,yy.bz,yy.ppbz,jg.jgmc from jxdx_yyyj yy
+		inner join khdx_jg jg on jg.khdxdh = yy.jgkhdxdh
+		where lsh = #lsh# and yy.khdxdh=#khdxdh# 
+	</select>
+	<select id="ckyy_queryList" resultMap="Ckyy_ResultMap" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select yy.lsh,yy.khdxdh,yy.jgkhdxdh,yy.khlx,yy.khmc,yy.zjlb,yy.zjhm,yy.yjje,yy.blrq,yy.yyqsrq,yy.yyjsrq,yy.bz,yy.ppbz,jg.jgmc from jxdx_yyyj yy
+		inner join khdx_jg jg on jg.khdxdh = yy.jgkhdxdh
+		where yy.khdxdh = #khdxdh# and yy.yylx='$yylx$'
+	</select>
+	
+	<insert id="ckyy_saveCKYY" parameterClass="com.tiancom.mpas.app.ckyy.Ckyy">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		insert into mpas_yyck( lsh,khdxdh,jgkhdxdh,khlx,khmc,zjlb,zjhm,yjje,blrq,yyqsrq,yyjsrq,bz,ppbz) 
+		values(#lsh#,#khdxdh#,#jgkhdxdh#,#khlx#,#khmc#,#zjlb#,#zjhm#,#yjje#,#blrq#,#yyqsrq#,#yyjsrq#,#bz#,#ppbz#)
+	</insert>
+	<insert id="ckyy_saveCKYY_synPasSide" parameterClass="com.tiancom.mpas.app.ckyy.Ckyy">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		insert into jxdx_yyyj( lsh,yylx,khdxdh,jgkhdxdh,khlx,khmc,zjlb,zjhm,yjje,blrq,yyqsrq,yyjsrq,bz,ppbz) 
+		select coalesce(max(lsh)+1,1) lsh,'$yylx$' yylx ,$khdxdh$ khdxdh,$jgkhdxdh$ jgkhdxdh,'$khlx$' khlx,'$khmc$' khmc,'$zjlb$' zjlb,'$zjhm$' zjhm,$yjje$ yjje,
+		$blrq$ blrq,$yyqsrq$ yyqsrq,$yyjsrq$ yyjsrq,'$bz$' bz,'$ppbz$' ppbz from jxdx_yyyj
+	</insert>
+	
+	<update id="ckyy_updateByKey" parameterClass="com.tiancom.mpas.app.ckyy.Ckyy">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update jxdx_yyyj set
+		khlx = #khlx#,
+		zjlb = #zjlb#,
+		zjhm = #zjhm#,
+		bz=#bz#
+		where lsh = #lsh# and yylx = #yylx#
+	</update>
+	
+	<select id="ckyy_checkPasAndMpasExist" resultClass="java.lang.Integer" parameterClass="com.tiancom.mpas.app.ckyy.Ckyy">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select count(1) cnt from jxdx_yyyj where jgkhdxdh = #jgkhdxdh# and zjhm = #zjhm# 
+		and (#yyqsrq# between yyqsrq and yyjsrq or #yyjsrq# between yyqsrq and yyjsrq) and yylx='$yylx$'
+	</select>
+	
+	<select id="ckyy_loadKhlx" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select dmz as key,dmms as value from csb_dmms where lower(dmmc) = 'khfxkhlx'
+	</select>
+	<select id="ckyy_loadZjlb" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select dmz as key,dmms as value from csb_dmms where lower(dmmc) = 'zjlx'
+	</select>
+	
+	<select id="ckyy_getNewLsh" resultClass="java.lang.Integer" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select (case when max(lsh)=0 or max(lsh) is null then 0 else max(lsh) end) +1 as LSH from MPAS_YYCK
+	</select>
+	
+	<select id="ckyy_loadyysxts" resultClass="java.lang.Integer" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select cast(csz as integer) ts from xtb_xtcs where lower(csmc) = 'yysxts'
+	</select>
+	
+	<!-- 新增 -->
+	<select id="ckyy_queryYylx" resultClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	   select yylx,yyms,ywlb from csb_yylx
+	</select>
+	
+	<select id="ckyy_chcekCkBykhh" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	 select F_GET_DQFP($blrq$,a.jxdxdh,a.gxhslx,a.khdxdh,'CK') as fpms
+	from JXDX_CKZH a
+	inner join khdx_jg jg on jg.jgdh=a.jgdh
+	inner join khdx_kh kh on a.khh=kh.khh 
+	where jg.khdxdh=$jgkhdxdh$  and kh.zjhm='$zjhm$'
+	order by A.khrq desc
+	fetch first 1 rows only
+	</select>
+	
+	<select id="ckyy_chcekZjhm" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select count(1) cnt
+		  from JXDX_YYYJ
+		 where jgkhdxdh = $jgkhdxdh$
+		   and zjhm = '$zjhm$'
+		   and ($qsrq$ between yyqsrq and yyjsrq or
+		       $jsrq$ between yyqsrq and yyjsrq)
+		   and yylx =$yylx$
+	</select>
+</mapper>

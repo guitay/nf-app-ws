@@ -1,16 +1,16 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.nf.app</groupId>
-    <artifactId>nf-app</artifactId>
+    <artifactId>nf-app-ws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.nf.app</groupId>
-  <artifactId>nf-app-api</artifactId>
+  <artifactId>nf-app-ws-services</artifactId>
   
-  <name>nf-app-api</name>
+  <name>nf-app-ws-services</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,7 @@
     </dependency>
     <dependency>
     		<groupId>com.nf.app</groupId>
-    		<artifactId>nf-app-common</artifactId>
+    		<artifactId>nf-app-api</artifactId>
     </dependency>
   </dependencies>
 </project>

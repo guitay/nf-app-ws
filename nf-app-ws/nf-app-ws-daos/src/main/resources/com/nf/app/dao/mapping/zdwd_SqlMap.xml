@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_ZDWD">
+	
+	<select id="zdwd_load" resultClass="com.tiancom.mpas.app.zdwd.Zdwd" parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select distinct wd.tjrq,wd.wdbh,wd.scr,hy.hymc scrmc,wd.wdmc,wd.pxbz
+		from mpas_zdwd_wd wd
+		inner join khdx_hy hy on wd.scr = hy.khdxdh
+		order by wd.pxbz
+	</select>
+	
+</sqlMap>

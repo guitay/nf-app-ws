@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_JJ">
+	<!--根据行员类别和统计日期查询计价信息 -->
+	<select id="app_jj_getCustomers" resultClass="com.tiancom.mpas.app.jj.Jj"
+		parameterClass="java.util.Map" remapResults="true">
+		select csb.QSRQ,coalesce(csb.KFDJ,0) kfdj,csb.BZXS,csb.HYLB,khfa.KHZBMC from
+		CSB_KHZBXS_HY csb ,KHFA_KHZB_HY khfa
+		where csb.KHZBDH=khfa.KHZBDH
+		<isNotEmpty prepend="and" property="tjrq">
+			$tjrq$ between qsrq and jsrq
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="hylb">
+			hylb in('-1','$hylb$')
+		</isNotEmpty>
+	</select>
+</sqlMap>

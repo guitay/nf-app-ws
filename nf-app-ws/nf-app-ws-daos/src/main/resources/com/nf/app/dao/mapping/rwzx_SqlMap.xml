@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_RWZX">
+	
+	<insert id="rwzx_insertTask" parameterClass="com.tiancom.mpas.app.rwzx.Rwxq">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		<![CDATA[
+		insert into
+		MPAS_GR_RWZX(KHDXDH,RWNR,RWDD,WCSJ,RWSM,SFWC,CZSJ,LXDH)
+		VALUES(#khdxdh#,#rwnr#,#rwdd#,#wcsj#||'.00.0',
+		#rwsm#,#sfwc#,f_get_systime(),#lxdh#)
+		]]>
+	</insert>
+
+	<delete id="rwzx_deleteTaskByJldh" parameterClass="com.tiancom.mpas.app.rwzx.Rwxq">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		delete from MPAS_GR_RWZX 
+		where rwbh=$rwbh$ and khdxdh=$khdxdh$ 
+		<isNotEmpty property="wcsj" prepend="and">
+			char(wcsj) like '$wcsj$%'
+		</isNotEmpty>
+		<isNotEmpty property="sfwc" prepend="and">
+			sfwc ='$sfwc$'
+		</isNotEmpty>
+		<isNotEmpty property="rwnr" prepend="and">
+			rwnr like '%$rwnr$%'
+		</isNotEmpty>
+		<isNotEmpty property="rwdd" prepend="and">
+			rwdd like '%$rwdd$%'
+		</isNotEmpty>
+		<isNotEmpty property="rwsm" prepend="and">
+			rwsm like '%$rwsm$%'
+		</isNotEmpty>
+		<isNotEmpty property="lxdh" prepend="and">
+			lxdh = '$lxdh$'
+		</isNotEmpty>
+	</delete>
+	
+	<select id="rwzx_queryTaskByPara" parameterClass="java.util.Map"
+		resultClass="com.tiancom.mpas.app.rwzx.Rwxq">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select KHDXDH,RWBH,RWNR,RWDD,WCSJ,RWSM,SFWC,CZSJ,LXDH
+		from MPAS_GR_RWZX 
+		where khdxdh=$khdxdh$
+		<isNotEmpty property="rwbh" prepend="and">
+			rwbh = $rwbh$
+		</isNotEmpty>
+		<isNotEmpty property="sfwc" prepend="and">
+			sfwc = '$sfwc$'
+		</isNotEmpty>
+		<isNotEmpty property="rwdd" prepend="and">
+			rwdd like '%$rwdd$%'
+		</isNotEmpty>
+		<isNotEmpty property="rwnr" prepend="and">
+			rwnr like '%$rwnr$%'
+		</isNotEmpty>
+		<isNotEmpty property="wcsj" prepend="and">
+			char(wcsj) like '$wcsj$%'
+		</isNotEmpty>
+		<isNotEmpty property="czsj" prepend="and">
+			czsj = f_get_systime()
+		</isNotEmpty>
+		<isNotEmpty property="rwsm" prepend="and">
+			rwsm like '%$rwsm$%'
+		</isNotEmpty>
+		<isNotEmpty property="lxdh" prepend="and">
+			lxdh = '$lxdh$'
+		</isNotEmpty>
+		order by wcsj asc
+	</select>
+	
+	<update id="rwzx_updateTaskByPara" parameterClass="com.tiancom.mpas.app.rwzx.Rwxq">
+		<!-- update MPAS_GR_RWZX set tjrq=$tjrq$ ,khdxdh=$khdxdh$,rwnr='$rwnr$',dd='$dd$',sj=to_date('$sj$','yyyy-mm-dd 
+			HH24:MI:SS'),sfwc='$sfwc$' ,tx=$tx$ where rwbh=$rwbh$ -->
+		
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update MPAS_GR_RWZX
+		set 
+		<isNotEmpty property="rwnr" >
+			rwnr = '$rwnr$' ,
+		</isNotEmpty>
+		<isNotEmpty property="rwdd" >
+			rwdd = '$rwdd$',
+		</isNotEmpty>
+		<isNotEmpty property="wcsj" >
+			wcsj = '$wcsj$'||'.00.0',
+		</isNotEmpty>
+		<isNotEmpty property="rwsm" >
+			rwsm = '$rwsm$',
+		</isNotEmpty>
+		<isNotEmpty property="sfwc" >
+			sfwc = '$sfwc$',
+		</isNotEmpty>
+		<isNotEmpty property="lxdh" >
+			lxdh = '$lxdh$',
+		</isNotEmpty>
+		czsj = f_get_systime()
+		where rwbh=$rwbh$ and khdxdh=$khdxdh$
+	</update>
+</sqlMap>

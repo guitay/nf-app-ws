@@ -1,16 +1,17 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.nf.app</groupId>
     <artifactId>nf-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+	<relativePath>..</relativePath>
   </parent>
-  <groupId>com.nf.app</groupId>
-  <artifactId>nf-app-api</artifactId>
   
-  <name>nf-app-api</name>
+  <groupId>com.nf.app</groupId>
+  <artifactId>nf-app-ws</artifactId>
+  
+  <name>nf-app-ws</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,9 +23,10 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    		<groupId>com.nf.app</groupId>
-    		<artifactId>nf-app-common</artifactId>
-    </dependency>
   </dependencies>
+  <packaging>pom</packaging>
+  <modules>
+    <module>nf-app-ws-services</module>
+    <module>nf-app-ws-daos</module>
+  </modules>
 </project>

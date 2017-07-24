@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_Grsz">
+	
+	<select id="APP_Grsz_selectXxList" parameterClass="java.util.Map" resultClass="com.tiancom.mpas.app.grsz.Xxts">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select distinct bh,xxlx,xxlj,tsnr,tssj xxsj,tshy,zt
+		from MPAS_SZ_XXTS
+		<dynamic prepend="where">
+		<isNotEmpty property="tshy" prepend="tshy">
+			tshy = #tshy#
+		</isNotEmpty>
+		<isNotEmpty property="bh" prepend="and">
+			bh = #bh#
+		</isNotEmpty>
+		<isNotEmpty property="xxlx" prepend="and">
+			xxlx = #xxlx#
+		</isNotEmpty>
+		<isNotEmpty property="xxsj" prepend="and">
+			char(tssj) like '$xxsj$%'
+		</isNotEmpty>
+		<isNotEmpty property="xxlj" prepend="and">
+			xxlj = #xxlj#
+		</isNotEmpty>
+		<isNotEmpty property="tsnr" prepend="and">
+			tsnr like '%tsnr%'
+		</isNotEmpty>
+		<isNotEmpty property="zt" prepend="and">
+			zt = #zt#
+		</isNotEmpty>
+		<isNotEmpty property="otsnr" prepend="and">
+			<![CDATA[tssj < '$otsnr$'||'.05.0']]>
+		</isNotEmpty>
+		</dynamic>
+		order by tssj desc
+	</select>
+	
+	<update id="APP_Grsz_updateXxzt" parameterClass="com.tiancom.mpas.app.grsz.Xxts" >
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update MPAS_SZ_XXTS 
+		set  tshy = #tshy#
+		<isNotEmpty prepend="," property="zt">
+    	   zt='$zt$'
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="tsnr">
+    	   tsnr='$tsnr$'
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="xxsj">
+    	   tssj='$xxsj$'
+		</isNotEmpty>
+		<dynamic prepend="where">
+		<isNotEmpty prepend="and" property="bh">
+    	   bh=#bh#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="otsnr">
+    	   tsnr='$otsnr$'
+		</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<insert id="APP_Grsz_insertXxts" parameterClass="com.tiancom.mpas.app.grsz.Xxts" >
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		insert into MPAS_SZ_XXTS(xxlx, xxlj, tsnr, tssj, tshy ,zt)
+		values ('$xxlx$','$xxlj$','$tsnr$',
+		<isNotEmpty property="xxsj">
+			'$xxsj$',
+		</isNotEmpty>
+		<isEmpty property="xxsj">
+			f_get_systime(),
+		</isEmpty>
+		$tshy$,'0')
+	</insert>
+	
+	<select id="APP_Grsz_selectTxsz" parameterClass="com.tiancom.mpas.app.grsz.Txsz" resultClass="com.tiancom.mpas.app.grsz.Txsz">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		select distinct khdxdh,cslx,csz,sfqy
+		from MPAS_SZ_GRCSSZ
+		<dynamic prepend="where">
+		<isNotEmpty property="khdxdh" prepend="khdxdh">
+			khdxdh = #khdxdh#
+		</isNotEmpty>
+		<isNotEmpty property="sfqy" prepend="and">
+			sfqy = #sfqy#
+		</isNotEmpty>
+		<isNotEmpty property="cslx" prepend="and">
+			cslx = #cslx#
+		</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="APP_Grsz_updateTxsz" parameterClass="com.tiancom.mpas.app.grsz.Txsz" >
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update MPAS_SZ_GRCSSZ 
+		set  sfqy='$sfqy$'
+		<isNotEmpty prepend="," property="csz">
+			 csz='$csz$'
+		</isNotEmpty>
+		where  khdxdh =$khdxdh$ 
+		<isNotEmpty prepend="and" property="cslx">
+    	   cslx='$cslx$'
+		</isNotEmpty>
+	</update>
+	
+	<insert id="APP_Grsz_insertYhfk" parameterClass="java.util.Map" >
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		insert into MPAS_GR_YHFK(tjrq, hykhdxdh, dzyx, sjhm, yjfk, txrq)
+		values ($tjrq$, $khdxdh$, '$email$', '$phone$', '$lynr$', f_get_timestamp('$txrq$'))
+	</insert>
+	
+	<select id="APP_Grsz_getZxpf"  resultClass="com.tiancom.mpas.app.grsz.PfHyList"  parameterClass="java.util.HashMap" remapResults="true">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+				SELECT DISTINCT $tjrq$ TJRQ,pf.pfksrq,pf.pfjsrq,pf.khfamc as famc,pf.khzq,PF.fabh,PF.khqs,HY.KHDXDH , HY.HYMC AS khdxmc,
+				 HY.HYDH DH,HY.JGMC,HY.LBMC ,PF.KHDX
+				FROM MPAS_GR_ZXPF PF
+				INNER JOIN MPAS_XT_HY HY ON HY.KHDXDH = PF.KHDXDH
+				WHERE pf.pfzt = '$pfzt$' and PF.DFZKHDXDH = $khdxdh$
+				AND PF.KHDX = '2' and $tjrq$ between pf.pfksrq and pf.pfjsrq
+				UNION ALL
+			   SELECT DISTINCT $tjrq$ TJRQ, pf.pfksrq,pf.pfjsrq, pf.khfamc as famc,pf.khzq,PF.fabh,PF.khqs, 
+        		JG.KHDXDH , JG.JGMC   AS khdxmc,JG.JGDH AS dh,JG.JGMC, jglb.lbmc ,PF.KHDX
+				FROM MPAS_GR_ZXPF PF
+				INNER JOIN KHDX_JG JG ON JG.KHDXDH = PF.KHDXDH
+				inner join khdx_Jglb jglb on jg.khdxdh = jglb.khdxdh
+				WHERE pf.pfzt = #pfzt# and PF.DFZKHDXDH = $khdxdh$
+				AND PF.KHDX = '1' and $tjrq$ between jglb.qsrq and jglb.jsrq
+				and $tjrq$ between pf.pfksrq and pf.pfjsrq
+				order by tjrq desc
+	
+   </select>
+   
+   <select id="APP_Grsz_getPfInfo"  resultClass="com.tiancom.mpas.app.grsz.PfInfo"  parameterClass="java.util.HashMap" remapResults="true">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		SELECT  KHFAMC famc, KHDXDH, WDMC, XMMC, KHNR, FABH,KHQS, XMBH, XMDFSX, XMDFXX FROM MPAS_GR_ZXPF WHERE DFZKHDXDH=#khdxdh# and PFZT=#pfzt#
+   </select>
+   
+   
+   <select id="APP_Grsz_getPfSelect"  resultClass="com.tiancom.mpas.app.grsz.FaInfo"  parameterClass="java.util.HashMap" remapResults="true">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		SELECT PJBH, PJBZ, BZF FROM MPAS_GR_KHPJBZ WHERE FABH=$fabh$ and KHZBDH=$xmbh$
+   </select>
+	
+	<update id="APP_Grsz_updatePfInfo" parameterClass="java.util.Map">
+		update MPAS_GR_ZXPF SET DF=#df# , PFZT='1' 
+		WHERE DFZKHDXDH=$khdxdh$ AND KHDXDH=$hykhdxdh$ AND FABH=$khfabh$ AND XMBH=$xmbh$ 
+		<isNotEmpty prepend="and" property="khqs">
+			and khqs = #khqs#
+		</isNotEmpty>
+	</update>
+	
+	
+	<update id="update_znbs_zxpfz_df" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update khfa_zxpfz pfz set pf = (select cast(t.df as decimal(19,2)) from mpas_gr_zxpf t
+			where cast(t.fabh as integer) = pfz.fabh and pfz.khqs = cast(t.khqs as integer) 
+			 and pfz.xmbh = cast(t.xmbh as integer)
+			 and pfz.pjr=cast(t.dfzkhdxdh as integer) and pfz.khdxdh = cast(t.hykhdxdh as integer) 
+			 
+		)
+		where exists(
+			select 1 from mpas_gr_zxpf t
+			where cast(t.fabh as integer) = pfz.fabh and pfz.khqs = cast(t.khqs as integer) 
+			 and pfz.xmbh = cast(t.xmbh as integer)
+			 and pfz.pjr=cast(t.dfzkhdxdh as integer) and pfz.khdxdh = cast(t.hykhdxdh as integer) 
+			 and t.DFZKHDXDH=$khdxdh$ AND t.HYKHDXDH=$hykhdxdh$ 
+			 and t.FABH=#khfabh# AND t.XMBH=#xmbh# and t.khqs = #khqs#
+		)
+	</update>
+	
+	<update id="update_znbs_zxpffa_pfzt" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update khfa_zxpffa pfa set pfa.pfzt = '1'
+		where exists(
+			select 1 from mpas_gr_zxpf t
+			where cast(t.fabh as integer) = pfa.fabh and pfa.khqs = cast(t.khqs as integer) and pfa.pjr=cast(t.dfzkhdxdh as integer)
+			 and pfa.khdxdh = cast(t.hykhdxdh as integer) and t.DFZKHDXDH=$khdxdh$ 
+			 AND t.HYKHDXDH=$hykhdxdh$  
+			 and t.FABH=#khfabh# AND t.XMBH=#xmbh# and t.khqs = #khqs#
+		)
+	</update>
+	
+	
+	<update id="update_znbs_zxpffa_py" parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		update khfa_zxpffa pfa set pfa.py = #py#
+		where pfa.fabh = #khfabh# and pfa.khqs=#khqs# and pfa.pjr=#dfzkhdxdh# and pfa.khdxdh=#hykhdxdh#
+	</update>
+	
+</sqlMap>

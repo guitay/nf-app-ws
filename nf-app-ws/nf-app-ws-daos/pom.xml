@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.nf.app</groupId>
-    <artifactId>nf-app</artifactId>
+    <artifactId>nf-app-ws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.nf.app</groupId>
-  <artifactId>nf-app-api</artifactId>
-  
-  <name>nf-app-api</name>
+  <artifactId>nf-app-ws-daos</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>nf-app-ws-daos</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,10 +21,6 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-    		<groupId>com.nf.app</groupId>
-    		<artifactId>nf-app-common</artifactId>
     </dependency>
   </dependencies>
 </project>

@@ -31,6 +31,26 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.nf.app</groupId>
+				<artifactId>nf-app-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nf.app</groupId>
+				<artifactId>nf-app-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nf.app</groupId>
+				<artifactId>nf-app-ws</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nf.app</groupId>
+				<artifactId>nf-app-ws-services</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -113,5 +133,6 @@
 	<modules>
 		<module>nf-app-api</module>
 		<module>nf-app-common</module>
+		<module>nf-app-ws</module>
 	</modules>
 </project>

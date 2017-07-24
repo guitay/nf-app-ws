@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_YJ">
+	<!-- 查看个人业绩的指标信息 -->
+	<select id="app_yj_getKhGrzbs"  resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+			 SELECT yj.KHZBMC,yj.KHZBZ,yj.KHZBDH,COALESCE(yj.JHZ,0) JHZ,yj.DF,yj.JGNPM,yj.QHPM,
+			 	zb.SDBS,zb.BZ
+			 from MPAS_YJ_GRYJ yj
+			 INNER JOIN MPAS_PAS_HZKHZB zb on yj.khzbdh=zb.khzbdh and khlx='2'
+			 WHERE TJRQ = $tjrq$	AND KHDXDH = $khdxdh$	 AND YWLB='$ywlb$' 
+			 
+	</select>
+	
+	<!-- 查看机构业绩的指标信息 -->
+	<select id="app_yj_getJgKhzbs"  resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		 SELECT DISTINCT yj.KHZBDH,yj.KHZBMC,yj.KHZBZ,COALESCE(yj.JHZ,0) JHZ,yj.KHZQ,yj.DF,
+		 	zb.SDBS,zb.TJKJ,zb.BZ
+		 FROM MPAS_YJ_JGYJ yj
+		 INNER JOIN MPAS_PAS_HZKHZB zb on yj.khzbdh=zb.khzbdh and khlx='1'
+		 WHERE TJRQ=$tjrq$ 
+            AND YWLB='$ywlb$' 
+          
+            AND JGDH=(SELECT JGDH FROM MPAS_XT_HY WHERE KHDXDH=$khdxdh$)
+	 
+	  
+<!-- 	SELECT DISTINCT KHZBDH,KHZBMC ,sum(KHZBZ) KHZBZ, sum(JHZ) JHZ, AVG(KHZQ) KHZQ, sum(DF) DF
+    FROM MPAS_YJ_JGYJ
+    WHERE TJRQ='$tjrq$'  AND YWLB='$ywlb$' AND KHZQ='$khzq$' AND JGDH=(SELECT JGDH FROM MPAS_XT_HY WHERE KHDXDH='$khdxdh$')
+    GROUP BY KHZBDH,KHZBMC -->
+	</select>
+	
+	<!-- 查看全行业绩的指标信息 -->
+	<select id="app_yj_getQhKhzbs"  resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		<!-- SELECT 	DISTINCT KHZBDH, KHZBMC FROM  MPAS_YJ_JGYJ WHERE TJRQ=$tjrq$ AND KHDXDH=$khdxdh$ AND YWLB='$ywlb$' AND KHZQ='$khzq$'  -->
+		<!--  SELECT 	DISTINCT KHZBDH, KHZBMC FROM  MPAS_YJ_JGYJ WHERE TJRQ=$tjrq$ AND  YWLB='$ywlb$' AND KHZQ='$khzq$' -->
+	     SELECT 	DISTINCT yj.KHZBDH, yj.KHZBMC,zb.sdbs,zb.tjkj,zb.bz 
+	     FROM  MPAS_YJ_QHYJ yj
+	     INNER JOIN MPAS_PAS_HZKHZB zb on yj.khzbdh=zb.khzbdh and khlx='1'
+	     WHERE TJRQ=$tjrq$ AND  YWLB='$ywlb$' 
+	    
+	      AND KHDXDH=$khdxdh$
+	
+	</select>
+	
+	<!-- 查看全行业绩的指标信息明细 -->
+	<select id="app_yj_getMxInfoByKhzbdh"  resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		<!-- SELECT DISTINCT KHZBMC, KHZBZ, JGMC, JHZ,DF FROM MPAS_YJ_JGYJ WHERE KHZBDH=$khzbdh$ AND TJRQ=$tjrq$ AND KHDXDH=$khdxdh$  AND KHZQ='$khzq$' --> 
+	  SELECT DISTINCT KHZBMC, KHZBZ, JGMC,JGDH, COALESCE(yj.JHZ,0) JHZ,DF FROM MPAS_YJ_QHYJ
+        WHERE KHZBDH=$khzbdh$ 
+           AND TJRQ=$tjrq$   
+        
+         <!--   AND JGDH=(SELECT JGDH FROM MPAS_XT_HY WHERE KHDXDH='$khdxdh$') -->
+	</select>
+	
+	<!-- 查看虚拟行员业绩的指标信息明细 -->
+	<select id="app_yj_getXnhyzbs"  resultClass="java.util.HashMap"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		SELECT KHZBMC, KHZBZ, JGZBZ, ZB  FROM MPAS_YJ_XNHYYJ WHERE TJRQ=$tjrq$ AND KHDXDH=$khdxdh$ and YWLB='$ywlb$'
+	</select>
+	<select id="app_yj_getJgZbInfo" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	    select distinct KHZBZ,COALESCE(yj.JHZ,0) JHZ,DF,QHPM from  MPAS_YJ_JGYJ WHERE TJRQ=$tjrq$  AND KHZBDH=$khzbdh$   AND JGDH=(SELECT JGDH FROM MPAS_XT_HY WHERE KHDXDH=$khdxdh$)
+	</select>
+	
+	<select id="app_yj_getJgZbInfoInQh" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	    select distinct KHZBZ,COALESCE(yj.JHZ,0) JHZ,DF,coalesce(QHPM,0) QHPM from  MPAS_YJ_QHYJ WHERE TJRQ=$tjrq$   AND KHZBDH=$khzbdh$   AND JGDH='$jgdh$'
+	</select>
+	
+	<select id="app_yj_getPreJgZbInfoInQh" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	    SELECT DISTINCT  KHZBZ KHZBZ_PRE , JGMC JGMC_PRE, COALESCE(JHZ,0) JHZ_PRE,DF DF_PRE,coalesce(QHPM,0) QHPM_PRE FROM MPAS_YJ_JGYJ_LSSJ WHERE TJRQ=$tjrq$  AND KHZBDH=$khzbdh$   AND JGDH=(SELECT JGDH FROM MPAS_XT_HY WHERE KHDXDH=$khdxdh$)
+	</select>
+	
+	<select id="app_yj_getPreTjrq" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	    select SYM,SNM,SJM from csb_sjw where tjrq=#tjrq#
+	</select>
+	<select id="app_yj_getPreJgZbInfo" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		SELECT DISTINCT KHZBMC KHZBMC_PRE, KHZBZ KHZBZ_PRE , JGMC JGMC_PRE, COALESCE(JHZ,0) JHZ_PRE,DF DF_PRE,coalesce(QHPM,0) QHPM_PRE FROM MPAS_YJ_JGYJ_LSSJ WHERE KHZBDH=$khzbdh$ AND TJRQ=$tjrq$     AND JGDH='$jgdh$'
+	</select>
+	<select id="app_yj_getGrzbInfo" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	   SELECT KHZBMC,KHZBZ,KHZBDH,COALESCE(yj.JHZ,0) JHZ,DF,JGNPM,QHPM from MPAS_YJ_GRYJ	WHERE TJRQ = $tjrq$	AND KHDXDH = $khdxdh$ AND KHZBDH=$khzbdh$  
+	</select>
+	
+	<select id="app_yj_getPreGrZbInfo" resultClass="com.tiancom.mpas.app.yj.Zbxq"  parameterClass="java.util.HashMap">
+	
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	   SELECT KHZBMC KHZBMC_PRE,KHZBZ KHZBZ_PRE,KHZBDH KHZBDH_PRE,COALESCE(JHZ,0) JHZ_PRE,DF DF_PRE,JGNPM JGNPM_PRE,QHPM QHPM_PRE  from MPAS_YJ_GRYJ_LSSJ	WHERE TJRQ = $tjrq$	AND HYKHDXDH = $khdxdh$	  AND KHZBDH=$khzbdh$ 
+	</select>
+	
+</sqlMap>

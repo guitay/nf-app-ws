@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="APP_APP">
+	
+	<!-- 查看子菜单明细信息 -->
+	<select id="app_kh_hydycd"  resultClass="com.tiancom.mpas.app.console.CdPojo"  parameterClass="java.util.HashMap">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		SELECT CD.TJRQ,CD.KHDXDH,CD.CDBH,CD.CDMC,CD.CDMS,CD.CDWD,CD.CDDYB FROM MPAS_XT_HYDYCD CD
+		WHERE CD.TJRQ=$tjrq$ AND CD.KHDXDH=$khdxdh$ AND CD.CDBH=$cdbh$
+	</select>
+	
+	<!-- 更新菜单查看提醒 -->
+	<update id="app_kh_updateCustomerMenu" parameterClass="java.util.Map">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+	   UPDATE MPAS_SZ_HYCDCKTX 
+	        SET   SFCK ='1'
+	        WHERE KHDXDH = $khdxdh$  AND  CDBH = $cdbh$
+    </update>
+	
+	
+	<!-- 添加日志 -->
+	<insert id="app_sz_insertCzrz" parameterClass="java.util.Map">
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty>
+		insert into MPAS_SZ_CZRZ (tjrq, dlkhdxdh, cdbh, czsj,cdmc, sfscdl)
+		values($tjrq$, $dlkhdxdh$, $cdbh$, f_get_timestamp('$czsj$'),'$cdmc$',$sfscdl$)
+	</insert>
+	
+	<select id="app_sz_selectSfscdl" parameterClass="java.util.Map" resultClass="java.lang.Integer"> 
+		<isNotEmpty property="db">
+    		<![CDATA[/**!mycat:datanode=$db$**/]]>
+		</isNotEmpty> 
+		select count(1) from MPAS_SZ_CZRZ   where dlkhdxdh=$dlkhdxdh$ 
+	</select>
+	
+</sqlMap>
