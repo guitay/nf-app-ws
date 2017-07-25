@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 @XmlRootElement(name="PfHyList")
-public class PfHyList {
+public class PfHyList  extends Model{
 
 	private String tjrq;
 	private String khdxdh;

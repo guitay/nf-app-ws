@@ -16,13 +16,17 @@ package com.nf.app.dao;
  */
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.nf.app.bean.pojo.Hylb;
 import com.nf.app.dao.system.SystemDao;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class MyBatisApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -36,6 +40,13 @@ public class MyBatisApplication implements CommandLineRunner {
 	}
 
 	public void run(String... args) throws Exception {
-		System.out.println(this.systemDao.selectXtcs("SYS_DATE", null).getCsz());
+		System.out.println(this.systemDao.selectByDlmc("0009").getHymc());
+		Map map = new HashMap();
+		map.put("tjrq", "20161230");
+		map.put("khdxdh", 203);
+		List<Hylb> lbs = this.systemDao.selectHylb(map);
+		for(Hylb lb :lbs ) {
+			System.out.println("lbdh:"+lb.getLbdh()+";lbmc:"+lb.getLbmc());
+		}
 	}
 }

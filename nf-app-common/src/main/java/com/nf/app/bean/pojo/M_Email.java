@@ -1,7 +1,9 @@
 package com.nf.app.bean.pojo;
 
+import com.nf.app.bean.base.Model;
+
 //数据库M_邮件_待发送 和 数据库M_邮件_已发送 的实体类
-public class M_Email {
+public class M_Email  extends Model{
 	//行员信息相关 HYXX_YHBS表
 	private String hydh;//行员代号
 	private String hymc;//行员名称

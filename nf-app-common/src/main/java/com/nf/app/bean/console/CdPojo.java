@@ -1,11 +1,13 @@
 package com.nf.app.bean.console;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 客户子菜单初始化界面信息实体类
  * @author zhouyan
  *
  */
-public class CdPojo {
+public class CdPojo extends Model {
 	/**
 	 * 统计日期
 	 */

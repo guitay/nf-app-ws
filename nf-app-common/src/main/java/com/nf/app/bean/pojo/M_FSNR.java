@@ -1,6 +1,9 @@
 package com.nf.app.bean.pojo;
+
+import com.nf.app.bean.base.Model;
+
 //实体类 用于将SJBC 指标值 和指标名称 读取出来
-public class M_FSNR {
+public class M_FSNR  extends Model{
 	private String hydh;//行员代号
 	private String khzbmc;//考核指标名称
 	private String zbz;//指标值

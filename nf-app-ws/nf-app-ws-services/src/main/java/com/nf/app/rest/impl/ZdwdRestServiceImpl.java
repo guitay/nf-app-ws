@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.bean.zdwd.Zdwd;
 import com.nf.app.rest.ZdwdRestService;
-import com.nf.app.zdwd.ZdwdService;
+import com.nf.app.service.zdwd.ZdwdService;
 
 @Path("/zdwd/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -2,13 +2,15 @@ package com.nf.app.bean.jx;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 全行绩效列表
  * @author 王启灵
  *
  */
 @XmlRootElement(name="QhjxList")
-public class QhjxList {
+public class QhjxList extends Model{
 
 	private Integer hykhdxdh; //行员考核对象代号
 	private String jgmc; //机构名称

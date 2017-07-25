@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nf.app.bean.pojo.Dmms;
 import com.nf.app.bean.pojo.Hylb;
@@ -19,22 +17,19 @@ import com.nf.app.bean.pojo.Jg;
 import com.nf.app.bean.pojo.MPAS_HY;
 import com.nf.app.bean.pojo.Menu;
 import com.nf.app.bean.pojo.XTCS;
-import com.nf.app.console.AppService;
 import com.nf.app.rest.SystemRestService;
-import com.nf.app.system.SystemService;
+import com.nf.app.service.console.AppService;
+import com.nf.app.service.system.SystemService;
 
 import io.swagger.annotations.Api;
 
 @Api("/system")
-@Service
 public class SystemRestServiceImpl implements SystemRestService {
 	private static final Logger log = LoggerFactory.getLogger(SystemRestServiceImpl.class);
 
-	@Resource
-	@Qualifier("SystemServiceBean")
+	@Autowired
 	private SystemService service;
-	@Resource
-	@Qualifier("AppServiceBean")
+	@Autowired
 	private AppService appservice;
 
 	public SystemRestServiceImpl() {

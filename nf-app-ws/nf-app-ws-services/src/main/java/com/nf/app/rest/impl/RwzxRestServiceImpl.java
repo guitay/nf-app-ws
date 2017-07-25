@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.bean.rwzx.Rwxq;
 import com.nf.app.rest.RwzxRestService;
-import com.nf.app.rwzx.RwzxService;
+import com.nf.app.service.rwzx.RwzxService;
 
 @Path("/rwzx/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

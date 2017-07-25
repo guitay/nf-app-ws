@@ -2,13 +2,15 @@ package com.nf.app.bean.grsz;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 在线评分详情
  * @author 王启灵
  *
  */
 @XmlRootElement(name="PfInfo")
-public class PfInfo {
+public class PfInfo  extends Model{
 	
 	private Integer hykhdxdh; //行员考核对象代号
 	private String wdmc; //维度名称

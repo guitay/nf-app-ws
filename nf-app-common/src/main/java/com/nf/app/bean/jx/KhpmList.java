@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 @XmlRootElement(name="KhpmList")
-public class KhpmList {
+public class KhpmList extends Model {
 	
 	private Integer tjrq;     //统计日期
 	private Integer khdxdh;   //考核对象代号

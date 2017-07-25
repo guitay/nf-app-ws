@@ -1,6 +1,8 @@
 package com.nf.app.bean.pojo;
 
-public class APP_ZH {
+import com.nf.app.bean.base.Model;
+
+public class APP_ZH  extends Model{
 
 	private String zhdh;
 	private String zhye;

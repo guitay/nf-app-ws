@@ -2,8 +2,10 @@ package com.nf.app.bean.pojo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 @XmlRootElement(name = "Dmms")
-public class Dmms {
+public class Dmms extends Model {
 
 	private String dmmc;
 	private String dmz;

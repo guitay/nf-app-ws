@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.nf.app.bean.yj.Zbxq;
 import com.nf.app.rest.YjRestService;
-import com.nf.app.yj.YjService;
+import com.nf.app.service.yj.YjService;
 
 @Path("/yj/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

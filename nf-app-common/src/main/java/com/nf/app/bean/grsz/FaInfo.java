@@ -2,13 +2,15 @@ package com.nf.app.bean.grsz;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 方案选项详情
  * @author 王启灵
  *
  */
 @XmlRootElement(name="FaInfo")
-public class FaInfo {
+public class FaInfo  extends Model{
 	
 	private Integer pjbh; //评价编号
 	private String pjbz; //评价标准

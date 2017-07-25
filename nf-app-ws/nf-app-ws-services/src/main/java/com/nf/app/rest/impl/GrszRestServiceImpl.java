@@ -29,8 +29,8 @@ import com.nf.app.bean.grsz.Yhfk;
 import com.nf.app.bean.grsz.ZxpfCs;
 import com.nf.app.bean.grsz.ZxpfPojo;
 import com.nf.app.bean.pojo.QueryCondition;
-import com.nf.app.grsz.GrszService;
 import com.nf.app.rest.GrszRestService;
+import com.nf.app.service.grsz.GrszService;
 
 /**
  * 系统参数CXF接口

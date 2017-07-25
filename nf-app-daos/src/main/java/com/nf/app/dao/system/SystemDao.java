@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.nf.app.bean.pojo.Dmms;
 import com.nf.app.bean.pojo.Hylb;
@@ -21,10 +21,8 @@ import com.nf.app.bean.pojo.XTCS;
  * @author luoxt
  *
  */
-@Component
+@Repository
 public class SystemDao {
-	
-
 	private final SqlSession ibaseDAO;
 
 	public SystemDao(SqlSession ibaseDAO) {

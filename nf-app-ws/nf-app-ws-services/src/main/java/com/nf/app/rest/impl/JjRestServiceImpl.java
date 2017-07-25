@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 
 import com.nf.app.bean.jj.Jj;
 import com.nf.app.bean.pojo.QueryCondition;
-import com.nf.app.jj.JjService;
 import com.nf.app.rest.JjRestService;
+import com.nf.app.service.jj.JjService;
 
 /**
  * 计价CXF接口

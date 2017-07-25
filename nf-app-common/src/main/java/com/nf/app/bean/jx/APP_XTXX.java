@@ -2,8 +2,10 @@ package com.nf.app.bean.jx;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 @XmlRootElement(name="APP_XTXX")
-public class APP_XTXX {
+public class APP_XTXX  extends Model{
 
 	private String tjrq;//统计日期
 	private String khdxdh;//考核对象代号

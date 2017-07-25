@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.nf.app.bean.base.Model;
+
 @XmlRootElement(name = "Jg")
-public class Jg {
+public class Jg  extends Model{
 	private String ywlb; // 业务类别
 	private String ms; // 描述
 	private String jgdh; // 机构代号

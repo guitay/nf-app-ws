@@ -1,11 +1,13 @@
 package com.nf.app.bean.kh;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 客户子菜单初始化界面信息实体类
  * @author zhouyan
  *
  */
-public class KhcdPojo {
+public class KhcdPojo  extends Model{
 	/**
 	 * 统计日期
 	 */

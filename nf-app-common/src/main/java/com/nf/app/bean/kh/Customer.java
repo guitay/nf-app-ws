@@ -3,13 +3,15 @@ package com.nf.app.bean.kh;
 import java.util.List;
 import java.util.Map;
 
+import com.nf.app.bean.base.Model;
+
 /**
  * 客户信息
  * @author zhouyan
  *
  */
 @SuppressWarnings("unchecked")
-public class Customer {
+public class Customer  extends Model{
 	/**
 	 * 考核对象代号
 	 */

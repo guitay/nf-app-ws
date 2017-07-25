@@ -1,6 +1,8 @@
 package com.nf.app.bean.pojo;
 
-public class APP_GRCSSZ {
+import com.nf.app.bean.base.Model;
+
+public class APP_GRCSSZ  extends Model{
 
 	private Integer khdxdh;
 	private String cslx;
