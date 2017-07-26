@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.bean.zdwd.Zdwd;
@@ -22,7 +22,7 @@ import com.nf.app.service.zdwd.ZdwdService;
 @Path("/zdwd/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Component
+@Service
 public class ZdwdRestServiceImpl implements ZdwdRestService {
 	private int defaultRowStart = 0;
 	private int defaultPageSize = 50;

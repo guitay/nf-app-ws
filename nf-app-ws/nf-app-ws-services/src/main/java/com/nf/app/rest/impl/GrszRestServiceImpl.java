@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.grsz.FaInfo;
 import com.nf.app.bean.grsz.PfHyList;
@@ -40,7 +40,7 @@ import com.nf.app.service.grsz.GrszService;
 @Path("/grsz/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
-@Component
+@Service
 public class GrszRestServiceImpl implements GrszRestService {
 
 	private static final Logger log = LoggerFactory.getLogger(GrszRestServiceImpl.class);

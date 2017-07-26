@@ -90,6 +90,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
+		<!-- Apache cxf -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
@@ -105,6 +106,23 @@
 			<artifactId>cxf-rt-rs-service-description-swagger</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-features-metrics</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<!-- Actuator Endpoints -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -112,7 +130,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<modules>
 		<module>nf-app-api</module>
 		<module>nf-app-common</module>

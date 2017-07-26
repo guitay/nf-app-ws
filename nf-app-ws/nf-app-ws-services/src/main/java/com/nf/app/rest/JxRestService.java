@@ -28,6 +28,8 @@ import com.nf.app.bean.jx.QhjxMx;
 import com.nf.app.bean.pojo.Hylb;
 import com.nf.app.bean.pojo.QueryCondition;
 
+import io.swagger.annotations.Api;
+
 /**
  * 绩效工资CXF接口
  * 
@@ -37,6 +39,7 @@ import com.nf.app.bean.pojo.QueryCondition;
 @Path("/jx/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/jx")
 @Service
 public interface JxRestService {
 

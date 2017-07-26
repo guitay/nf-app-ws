@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.yj.Zbxq;
 
+import io.swagger.annotations.Api;
+
 @Path("/yj/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/yj")
 @Service
 public interface YjRestService {
 

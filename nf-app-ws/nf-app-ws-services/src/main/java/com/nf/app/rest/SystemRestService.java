@@ -32,8 +32,8 @@ import io.swagger.annotations.Api;
  *
  */
 @Path("/system")
-@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
 @Api("/system")
 @Service
 public interface SystemRestService {
@@ -47,7 +47,7 @@ public interface SystemRestService {
 	 */
 	@GET
 	@Path("/getxtcs/{csmc}/{dbSchema}")
-	public XTCS getXtcs(@PathParam("csmc") String csmc, @PathParam("dbSchema") String dbSchema) ;
+	public XTCS getXtcs(@PathParam("csmc") String csmc, @PathParam("dbSchema") String dbSchema);
 
 	/**
 	 * 001M002按代码名称取得代码描述列表
@@ -66,7 +66,7 @@ public interface SystemRestService {
 	 */
 	@GET
 	@Path("/getloginuser/{dlmc}/{db}")
-	public MPAS_HY getLoginUser(@PathParam("dlmc") String dlmc,@PathParam("db") String db) ;
+	public MPAS_HY getLoginUser(@PathParam("dlmc") String dlmc, @PathParam("db") String db);
 
 	/**
 	 * M004 getrootjg 取得根机构
@@ -114,7 +114,7 @@ public interface SystemRestService {
 	@GET
 	@Path("/getHyMenus/{tjrq}/{khdxdh}/{dbSchema}")
 	public List<Menu> getHyMenus(@PathParam("tjrq") Integer tjrq, @PathParam("khdxdh") Integer khdxdh,
-			@PathParam("dbSchema") String dbSchema) ;
+			@PathParam("dbSchema") String dbSchema);
 
 	/**
 	 * M009 getHyIndexMenus 按行员考核对象代号取得个人首页菜单
@@ -125,7 +125,7 @@ public interface SystemRestService {
 	@GET
 	@Path("/getHyIndexMenus/{tjrq}/{khdxdh}/{lbdh}/{dbSchema}")
 	public List<Menu> getHyIndexMenus(@PathParam("tjrq") String tjrq, @PathParam("khdxdh") Integer khdxdh,
-			@PathParam("lbdh") String lbdh,@PathParam("dbSchema") String dbSchema);
+			@PathParam("lbdh") String lbdh, @PathParam("dbSchema") String dbSchema);
 
 	/**
 	 * M010 getHylbByKhdxdh 按行员考核对象代号取得所有行员类别
@@ -136,7 +136,7 @@ public interface SystemRestService {
 	@GET
 	@Path("/getHylbByKhdxdh/{tjrq}/{khdxdh}/{dbSchema}")
 	public List<Hylb> getHylbByKhdxdh(@PathParam("tjrq") Integer tjrq, @PathParam("khdxdh") Integer khdxdh,
-			@PathParam("dbSchema") String dbSchema) ;
+			@PathParam("dbSchema") String dbSchema);
 
 	/**
 	 * M011 getZxgg 按行员考核对象代号取得行员最新公告
@@ -156,7 +156,7 @@ public interface SystemRestService {
 	 */
 	@GET
 	@Path("/getRw/{khdxdh}/{dbSchema}")
-	public List<Map> getRw(@PathParam("khdxdh") Integer khdxdh, @PathParam("dbSchema") String dbSchema) ;
+	public List<Map> getRw(@PathParam("khdxdh") Integer khdxdh, @PathParam("dbSchema") String dbSchema);
 
 	/**
 	 * M013 insertCzrz 插入操作日志
@@ -169,6 +169,6 @@ public interface SystemRestService {
 	@Consumes("application/x-www-form-urlencoded")
 	public Response insertCzrz(@FormParam("cdbh") String cdbh, @FormParam("cdmc") String cdmc,
 			@FormParam("tjrq") String tjrq, @FormParam("dlkhdxdh") Integer dlkhdxdh, @FormParam("czsj") String czsj,
-			@FormParam("dbSchema") String dbSchema) ;
+			@FormParam("dbSchema") String dbSchema);
 
 }

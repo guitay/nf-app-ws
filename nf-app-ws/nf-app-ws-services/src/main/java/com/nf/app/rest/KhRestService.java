@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.nf.app.bean.pojo.APP_KH;
 import com.nf.app.bean.pojo.QueryCondition;
 
+import io.swagger.annotations.Api;
+
 /**
  * 客户CXF接口
  * 
@@ -23,6 +25,7 @@ import com.nf.app.bean.pojo.QueryCondition;
 @Path("/Kh/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/kh")
 @Service
 public interface KhRestService{
 

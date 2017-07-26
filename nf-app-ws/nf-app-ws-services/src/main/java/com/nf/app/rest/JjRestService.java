@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.nf.app.bean.jj.Jj;
 import com.nf.app.bean.pojo.QueryCondition;
 
+import io.swagger.annotations.Api;
+
 /**
  * 计价CXF接口
  * 
@@ -21,6 +23,7 @@ import com.nf.app.bean.pojo.QueryCondition;
 @Path("/Jj/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/Jj")
 @Service
 public interface JjRestService {
 

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.pojo.Dmms;
 import com.nf.app.bean.pojo.Hylb;
@@ -24,6 +25,7 @@ import com.nf.app.service.system.SystemService;
 import io.swagger.annotations.Api;
 
 @Api("/system")
+@Service
 public class SystemRestServiceImpl implements SystemRestService {
 	private static final Logger log = LoggerFactory.getLogger(SystemRestServiceImpl.class);
 
@@ -31,25 +33,9 @@ public class SystemRestServiceImpl implements SystemRestService {
 	private SystemService service;
 	@Autowired
 	private AppService appservice;
-
-	public SystemRestServiceImpl() {
-
-	}
-
-	public SystemService getService() {
-		return service;
-	}
-
-	public void setService(SystemService service) {
-		this.service = service;
-	}
-
-	public AppService getAppservice() {
-		return appservice;
-	}
-
-	public void setAppservice(AppService appservice) {
-		this.appservice = appservice;
+	
+	public SystemRestServiceImpl(){
+		super();
 	}
 
 	public XTCS getXtcs(String csmc, String dbSchema) {
@@ -71,7 +57,7 @@ public class SystemRestServiceImpl implements SystemRestService {
 
 	public MPAS_HY getLoginUser(String dlmc, String db) {
 		log.info("****on server side,invoking getLoginUser, " + dlmc + ",start ********");
-		MPAS_HY hy = service.selectMpasHYByDlmc(dlmc,db);
+		MPAS_HY hy = service.selectMpasHYByDlmc(dlmc, db);
 		log.info("****on server side,invoking getLoginUser, " + dlmc + ",completed ********");
 
 		return hy;

@@ -15,9 +15,12 @@ import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.ckyy.Ckyy;
 
+import io.swagger.annotations.Api;
+
 @Path("/yjyy/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/yjyy")
 @Service
 public interface CkyyRestService { 
 

@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.pojo.APP_KH;
 import com.nf.app.bean.pojo.QueryCondition;
@@ -30,7 +30,7 @@ import com.nf.app.service.kh.KhService;
 @Path("/Kh/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Component
+@Service
 public class KhRestServiceImpl implements KhRestService {
 
 	private static final Logger log = LoggerFactory.getLogger(KhRestServiceImpl.class);

@@ -3,8 +3,7 @@ package com.nf.app.service.system;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import com.nf.app.bean.pojo.Dmms;
 import com.nf.app.bean.pojo.Hylb;
 import com.nf.app.bean.pojo.Jg;
@@ -20,7 +19,7 @@ import com.nf.app.bean.pojo.XTCS;
  * @author 
  *
  */
-@Component
+@Service
 public interface SystemService {
   
 	final static String KEY = "mpas.LoginService";

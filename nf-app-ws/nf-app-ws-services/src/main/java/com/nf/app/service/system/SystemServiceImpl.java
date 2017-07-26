@@ -6,7 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.pojo.Dmms;
 import com.nf.app.bean.pojo.Hylb;
@@ -23,7 +23,7 @@ import com.nf.app.dao.system.SystemDao;
  * @author luoxt
  *
  */
-@Component
+@Service
 public class SystemServiceImpl implements SystemService {
 	
 	private static Logger log = LoggerFactory.getLogger(SystemServiceImpl.class);

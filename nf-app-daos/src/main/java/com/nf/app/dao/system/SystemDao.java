@@ -85,7 +85,7 @@ public class SystemDao {
 			}
 			if(null!=userObj){
 				hy = (MPAS_HY)userObj;
-				hy.setDb(db);
+//				hy.setDb(db);
 				return hy;
 			}
 //		}

@@ -1,8 +1,8 @@
 package com.nf.app.bean.pojo;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
-import com.nf.app.bean.base.Model;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 登陆行员
@@ -11,10 +11,8 @@ import com.nf.app.bean.base.Model;
  *
  */
 @XmlRootElement(name = "MPAS_HY")
-public class MPAS_HY extends Model {
-	
-	
-	
+public class MPAS_HY implements Serializable {
+
 	private Integer khdxdh;// 考核对象代号
 
 	private String dlmc; // 登陆名称

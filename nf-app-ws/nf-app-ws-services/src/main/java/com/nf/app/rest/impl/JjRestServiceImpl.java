@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.jj.Jj;
 import com.nf.app.bean.pojo.QueryCondition;
@@ -28,7 +28,7 @@ import com.nf.app.service.jj.JjService;
 @Path("/Jj/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Component
+@Service
 public class JjRestServiceImpl implements JjRestService {
 	private static final Logger log = LoggerFactory.getLogger(JjRestServiceImpl.class);
 	@Autowired

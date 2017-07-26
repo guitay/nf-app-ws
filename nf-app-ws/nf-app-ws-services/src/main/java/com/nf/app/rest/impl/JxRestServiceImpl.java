@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.jx.APP_HF;
 import com.nf.app.bean.jx.APP_JXGZ;
@@ -44,7 +44,7 @@ import com.nf.app.service.jx.JxService;
 @Path("/jx/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Component
+@Service
 public class JxRestServiceImpl implements JxRestService{
 
 	private static final Logger log = LoggerFactory.getLogger(JxRestServiceImpl.class);

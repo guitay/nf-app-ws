@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.bean.rwzx.Rwxq;
@@ -21,7 +21,7 @@ import com.nf.app.service.rwzx.RwzxService;
 @Path("/rwzx/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-@Component
+@Service
 public class RwzxRestServiceImpl implements RwzxRestService {
 
 	private static final Logger log = LoggerFactory.getLogger(RwzxRestServiceImpl.class);

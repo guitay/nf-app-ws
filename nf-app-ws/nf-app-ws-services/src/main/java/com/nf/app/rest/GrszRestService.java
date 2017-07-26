@@ -22,6 +22,8 @@ import com.nf.app.bean.grsz.ZxpfCs;
 import com.nf.app.bean.grsz.ZxpfPojo;
 import com.nf.app.bean.pojo.QueryCondition;
 
+import io.swagger.annotations.Api;
+
 
 
 /**
@@ -32,6 +34,7 @@ import com.nf.app.bean.pojo.QueryCondition;
 @Path("/grsz/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
+@Api("/grsz")
 @Service
 public interface GrszRestService {
 

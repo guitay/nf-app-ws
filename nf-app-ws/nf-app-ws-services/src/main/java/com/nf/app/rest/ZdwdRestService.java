@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 import com.nf.app.bean.pojo.QueryCondition;
 import com.nf.app.bean.zdwd.Zdwd;
 
+import io.swagger.annotations.Api;
+
 @Path("/zdwd/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Api("/zdwd")
 @Service
 public interface ZdwdRestService {
 
