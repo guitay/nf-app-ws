@@ -40,6 +40,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>com.nf.app</groupId>
 				<artifactId>nf-app-api</artifactId>
@@ -90,6 +91,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
+
 		<!-- Apache cxf -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
