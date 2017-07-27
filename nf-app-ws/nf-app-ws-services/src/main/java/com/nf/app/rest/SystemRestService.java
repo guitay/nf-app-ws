@@ -32,8 +32,8 @@ import io.swagger.annotations.Api;
  *
  */
 @Path("/system")
-@Consumes({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON})
 @Api("/system")
 @Service
 public interface SystemRestService {

@@ -75,9 +75,9 @@
 		<if test="xxsj!=null">
 			#{xxsj},
 		</if>
-		<isEmpty test="xxsj!=null">
+		<if test="xxsj!=null">
 			f_get_systime(),
-		</isEmpty>
+		</if>
 		#{tshy},'0')
 	</insert>
 
